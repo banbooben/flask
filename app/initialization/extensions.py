@@ -17,7 +17,7 @@ from utils.redis_tools import Redis
 # # 创建数据库管理对象db
 db = SQLAlchemy()
 migrate = Migrate(db=db)
-cache = Redis(get_redis_config(current_config.REDIS_CONF)).cache
+cache = Redis(get_redis_config(current_config.REDIS_CONF))
 
 
 # 初始化

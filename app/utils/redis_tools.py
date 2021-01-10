@@ -12,7 +12,7 @@ from redis.sentinel import Sentinel
 from typing import List, Tuple
 import re
 
-from common.decorators import singleton
+# from common.decorators import singleton
 from common.common_conf import get_redis_config
 from config.server_conf import current_config
 
@@ -85,13 +85,13 @@ class Redis(RedisBase):
         self.cache.set(*args, **kwargs)
 
     def get(self, *args, **kwargs):
-        self.cache.get(*args, **kwargs)
+        return self.cache.get(*args, **kwargs)
 
     def lpush(self, *args, **kwargs):
         self.cache.lpush(*args, **kwargs)
 
     def lpop(self, *args, **kwargs):
-        self.cache.lpop(*args, **kwargs)
+        return self.cache.lpop(*args, **kwargs)
 
 
 # __all__ = [Redis]
@@ -105,8 +105,9 @@ if __name__ == '__main__':
     # redis_config = current_config.REDIS_CONF
 
     # cache_pool = RedisPool(host, port, decode_responses, redis_password).connect_poll
-    cache = Redis(redis_config)
-    cache2 = Redis(redis_config)
-    print(cache.cache is cache2.cache)
-    # cache.set("age", 88)
-    # print(cache.get("age"))
+    ch = Redis(redis_config)
+    # cache2 = Redis(redis_config)
+    # print(cache.cache is cache2.cache)
+    ch.set("age", 88)
+    print(ch.get("age"))
+    print("ok")

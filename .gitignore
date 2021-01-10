@@ -135,4 +135,5 @@ dmypy.json
 /data/mysql
 /data/redis
 /data/rabbitmq
+./app/config/server_conf.py
 
