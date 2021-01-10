@@ -9,15 +9,9 @@
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-from config.server_conf import current_config
-from common.common_conf import get_redis_config
-
-from utils.redis_tools import Redis
-
 # # 创建数据库管理对象db
 db = SQLAlchemy()
 migrate = Migrate(db=db)
-cache = Redis(get_redis_config(current_config.REDIS_CONF)).cache
 
 
 # 初始化

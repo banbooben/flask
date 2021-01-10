@@ -35,7 +35,7 @@ from config.server_conf import current_config
 #                                     decode_responses=self.decode_responses)
 #
 
-# @singleton
+@singleton
 class RedisBase(object):
     def __init__(self, redis_conf):
         self.host = redis_conf.get("host", "127.0.0.1")
@@ -76,7 +76,7 @@ class RedisBase(object):
         return master, slave
 
 
-# @singleton
+@singleton
 class Redis(RedisBase):
     def __init__(self, redis_conf):
         super(Redis, self).__init__(redis_conf)
@@ -94,15 +94,12 @@ class Redis(RedisBase):
         self.cache.lpop(*args, **kwargs)
 
 
-# __all__ = [Redis]
-
 if __name__ == '__main__':
     """
     数据库管理配置参数
     """
 
-    redis_config = get_redis_config(current_config.REDIS_CONF)
-    # redis_config = current_config.REDIS_CONF
+    redis_config = get_redis_config(current_config)
 
     # cache_pool = RedisPool(host, port, decode_responses, redis_password).connect_poll
     cache = Redis(redis_config)

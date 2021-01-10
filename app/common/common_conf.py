@@ -41,10 +41,11 @@ def get_mysql_info(var_data):
 
 
 def get_redis_config(var_data):
-    host = var_data.get("REDIS_HOST", "127.0.0.1")
-    port = var_data.get("REDIS_PORT", 6379)
-    redis_password = var_data.get("REDIS_PASSWORD", "")
-    database = var_data.get("REDIS_DB", 0)
-    decode_responses = var_data.get("DECODE_RESPONSES", True)
+    host = var_data.CACHE_REDIS_HOST
+    port = var_data.CACHE_REDIS_PORT
+    database = var_data.CACHE_REDIS_DB
+    decode_responses = var_data.DECODE_RESPONSES
+    redis_password = var_data.CACHE_REDIS_PASSWORD
+    cache_type = var_data.CACHE_TYPE
     return {"host": host, "port": port, "db": database, "decode_responses": decode_responses,
             "password": redis_password, }

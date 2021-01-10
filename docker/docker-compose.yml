@@ -8,7 +8,7 @@ services:
           - redis
         volumes:
             - ../data/flaskr/logs:/flaskr/logs
-            - ../deploy/default.conf:/etc/nginx/sites-available/default
+            - ../deploy/default:/etc/nginx/sites-available/default
         ports:
             - 8088:80
 

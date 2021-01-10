@@ -13,7 +13,6 @@ from config.server_conf import current_config
 
 ROOT_LOG = str(current_config.LOG_DIR / 'root.log')
 ERROR_LOG = str(current_config.LOG_DIR / 'error.log')
-current_config.LOG_DIR.mkdir(exist_ok=True)
 
 LOG_CONF = {
     'version': 1,

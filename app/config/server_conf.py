@@ -38,8 +38,11 @@ class Config(object):
     }
 
     # 服务运行端口绑定
-    BIND = os.getenv("BIND", "0.0.0.0:5000")
+    BIND = os.getenv("BIND", 5000)
     WORK_NUMS = os.getenv("WORK_NUMS", multiprocessing.cpu_count())
+
+    def __init__(self):
+        self.LOG_DIR.mkdir(exist_ok=True)
 
 
 # 环境配置
@@ -54,15 +57,13 @@ class ProductConfig(Config):
 
     SQLALCHEMY_DATABASE_URI = get_databases_url(DATABASES)
 
-    # 缓存
-    REDIS_CONF = {
-        "CACHE_TYPE": os.getenv('CACHE_TYPE', 'redis'),
-        "REDIS_HOST": os.getenv('REDIS_HOST', '127.0.0.1'),
-        "REDIS_PORT": os.getenv('REDIS_PORT', 6379),
-        "REDIS_DB": os.getenv('REDIS_DB', 0),
-        "REDIS_PASSWORD": os.getenv('REDIS_PASSWORD', ''),
-        "DECODE_RESPONSES": os.getenv('DECODE_RESPONSES', True),
-    }
+    # # 缓存
+    CACHE_TYPE = os.getenv('CACHE_TYPE', 'redis')
+    CACHE_REDIS_HOST = os.getenv('CACHE_REDIS_HOST', '127.0.0.1')
+    CACHE_REDIS_PORT = os.getenv('CACHE_REDIS_PORT', 6379)
+    CACHE_REDIS_DB = os.getenv('CACHE_REDIS_DB', 0)
+    DECODE_RESPONSES = os.getenv('DECODE_RESPONSES', True)
+    CACHE_REDIS_PASSWORD = os.getenv('CACHE_REDIS_PASSWORD', '')
 
     LOG_LEVEL = "product"
 
@@ -76,23 +77,20 @@ class ProductConfig(Config):
 class TestConfig(Config):
     DATABASES = {
         'USER': 'root',
-        'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD', 'shang.666'),
         'HOST': '127.0.0.1',
         'PORT': '33061',
-        'DATABASES': 'gtja'
+        'DATABASES': 'crawler'
     }
 
     SQLALCHEMY_DATABASE_URI = get_databases_url(DATABASES)
-
     # 缓存
-    REDIS_CONF = {
-        "CACHE_TYPE": 'redis',
-        "REDIS_HOST": '127.0.0.1',
-        "REDIS_PORT": 6379,
-        "REDIS_DB": 0,
-        "REDIS_PASSWORD": '',
-        "DECODE_RESPONSES": True,
-    }
+    CACHE_TYPE = 'redis'
+    CACHE_REDIS_HOST = '127.0.0.1'
+    CACHE_REDIS_PORT = 63791
+    CACHE_REDIS_DB = 0
+    DECODE_RESPONSES = True
+    CACHE_REDIS_PASSWORD = ""
 
     # 日志等级设置
     LOG_LEVEL = "test"

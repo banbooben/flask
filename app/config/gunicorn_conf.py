@@ -10,7 +10,7 @@ workers = current_config.WORK_NUMS
 # timeout
 timeout = 800
 # 如果部署的时候开启了debug模式, 可以启用auto_reload
-# reload = True
+reload = True
 
 
 #

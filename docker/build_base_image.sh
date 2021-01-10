@@ -6,6 +6,5 @@
  # @FilePath: /dockerProject/python3Nginx/build_base_image.sh
  ###
 
-printf "\n================ Start build lnpy38:slim image ================\n\n"
-docker build -f Dockerfile.base -t lnpy38:slim .
-echo "ok"
+printf "\n================ Start build centos_lnpy37:latest image ================\n\n"
+docker build -f Dockerfile -t lnpy38:slim_test .

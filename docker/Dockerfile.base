@@ -6,7 +6,7 @@ RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf \
     && cd / && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN apt-get update -y
-RUN apt-get install -y nginx wget vim curl gcc procps
+RUN apt-get install -y nginx wget vim curl
 
 ENV LANG=zh_CN.UTF-8 \
     LC_ALL=zh_CN.UTF-8 \

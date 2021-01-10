@@ -10,8 +10,8 @@ time=$(date "+%Y%m%d%H%M%S")
 printf "\n================ Start build crawler:release_${time} image ================\n\n"
 docker_app="flaskr"
 mkdir ./${docker_app}
-cp -R ../app ./${docker_app}
-cp -R ../deploy ./${docker_app}
+cp -R ../flaskr ./${docker_app}
+cp -R ../deploy ./${docker_app}/deploy
 #cp ./requirements.txt ./${docker_app}/requirements.txt
 #cp ./default ./${docker_app}/default
 #cp ./init_database.sh ./${docker_app}/init_databases.sh
