@@ -15,6 +15,7 @@ from config.server_conf import config
 
 from initialization.extensions import config_extensions
 from initialization.logger_process import logger
+from initialization.error_process import init_error
 
 
 # from .extensions.my_logger.extensions_log import handler
@@ -45,6 +46,7 @@ def init_app(config_name='default'):
     # 未知
     RequestID(flask_app)
 
+    init_error(flask_app)
     # # 配置蓝本路由
     # route_extensions(flask_app)
     #

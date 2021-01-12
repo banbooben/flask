@@ -15,6 +15,9 @@ from config.extensions_conf import HTTP_HOST, HTTP_PORT
 
 from initialization.logger_process import logger
 
+from initialization.error_process import APIException
+
+
 app = init_app(current_environment)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
@@ -24,7 +27,8 @@ manager.add_command('db', MigrateCommand)
 def index():
     logger.info("ok test")
     logger.error("error test")
-    return jsonify({"code": 200, "msg": "ok", "data": {}})
+    raise APIException("123123123")
+    # return jsonify({"code": 200, "msg": "ok", "data": {}})
 
 
 if __name__ == "__main__":
