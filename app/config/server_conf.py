@@ -32,6 +32,14 @@ class Config(object):
     LOG_DIR = Path.cwd() / 'logs'
     LOG_LEVEL = "default"
 
+    # 上传文件存储位置
+    UPLOAD_PATH = Path.cwd() / 'static/upload'
+
+    # app静态资源路径
+    TEMPLATE_FOLDER = '../templates'
+    STATIC_FOLDER = '../static'
+    STATIC_URL_PATH = '/'
+
     # 路由白名单
     URL_WHITE_LIST = {
         '/': ['GET'],
@@ -103,7 +111,6 @@ class TestConfig(Config):
     }
 
 
-current_environment = "test"
 config = {
     'default': TestConfig,
     'test': TestConfig,
@@ -111,4 +118,5 @@ config = {
 }
 
 # global current_config
+current_environment = os.getenv("ENVIRONMENT", "test")
 current_config = config[current_environment]

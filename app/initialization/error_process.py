@@ -6,7 +6,8 @@
 
 
 # from utils.error_exception import APIException
-from flask import jsonify
+from flask import jsonify, request
+from utils.exception_process import APIException, ExtractException
 
 
 def init_error(app):
@@ -16,6 +17,21 @@ def init_error(app):
         response.status_code = error.status_code
         return response
 
+    @app.errorhandler(ExtractException)
+    def extract_error_handle(error):
+        response = jsonify(error.to_dict())
+        response.status_code = error.status_code
+        return response
+
+    @app.errorhandler(405)
+    def extract_error_handle(error):
+        return {"code": 405, "message": "Method Not Allowed", "status": "fail", "id": request.request_id}
+
+    @app.errorhandler(404)
+    def extract_error_handle(error):
+        return {"code": 404, "message": "The requested URL was not found on the server", "status": "fail",
+                "id": request.request_id}
+
 
 def register_blueprint_error(blueprint):
     @blueprint.app_errorhandler(APIException)
@@ -24,18 +40,17 @@ def register_blueprint_error(blueprint):
         response.status_code = error.status_code
         return response
 
+    @blueprint.app_errorhandler(ExtractException)
+    def extract_error_handle(error):
+        response = jsonify(error.to_dict())
+        response.status_code = error.status_code
+        return response
 
-class APIException(Exception):
+    @blueprint.app_errorhandler(405)
+    def extract_error_handle(error):
+        return {"code": 405, "message": "Method Not Allowed", "status": "fail", "id": request.request_id}
 
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        self.status_code = status_code if status_code else 500
-        self.payload = payload
-
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        rv['code'] = self.status_code
-        rv['data'] = {}
-        return rv
+    @blueprint.app_errorhandler(404)
+    def extract_error_handle(error):
+        return {"code": 404, "message": "The requested URL was not found on the server", "status": "fail",
+                "id": request.request_id}

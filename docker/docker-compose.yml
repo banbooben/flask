@@ -11,6 +11,10 @@ services:
             - ../deploy/default.conf:/etc/nginx/sites-available/default
         ports:
             - 8088:80
+        environment:
+            ENVIRONMENT: "test"
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
 
     redis:
         image: redis

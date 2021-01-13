@@ -16,6 +16,7 @@ from config.server_conf import config
 from initialization.extensions import config_extensions
 from initialization.logger_process import logger
 from initialization.error_process import init_error
+from initialization.request_process import init_hook_function, Request
 
 
 # from .extensions.my_logger.extensions_log import handler
@@ -23,11 +24,15 @@ from initialization.error_process import init_error
 
 
 def init_app(config_name='default'):
-    flask_app = Flask(__name__, template_folder='../templates', static_folder='../static', static_url_path='/')
-
-    # 配置基类
     if config_name not in config:
         config_name = 'default'
+    current_conf = config[config_name]
+
+    # 初始化app
+    flask_app = Flask(__name__, template_folder=current_conf.TEMPLATE_FOLDER, static_folder=current_conf.STATIC_FOLDER,
+                      static_url_path=current_conf.STATIC_URL_PATH)
+
+    # 配置基类
     flask_app.config.from_object(config[config_name])
 
     # 设置跨域
@@ -46,7 +51,15 @@ def init_app(config_name='default'):
     # 未知
     RequestID(flask_app)
 
+    # 重写request，并添加相关方法
+    flask_app.request_class = Request
+
+    # 注册全局错误
     init_error(flask_app)
+
+    # 注册钩子函数
+    init_hook_function(flask_app)
+
     # # 配置蓝本路由
     # route_extensions(flask_app)
     #

@@ -14,20 +14,18 @@ from config.server_conf import current_environment
 from config.extensions_conf import HTTP_HOST, HTTP_PORT
 
 from initialization.logger_process import logger
-
-from initialization.error_process import APIException
-
+from initialization.error_process import ExtractException
 
 app = init_app(current_environment)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 
-@app.route("/")
+@app.route("/", methods=['POST'])
 def index():
     logger.info("ok test")
     logger.error("error test")
-    raise APIException("123123123")
+    raise ExtractException(code="E02")
     # return jsonify({"code": 200, "msg": "ok", "data": {}})
 
 

@@ -136,4 +136,5 @@ dmypy.json
 /data/redis
 /data/rabbitmq
 ./app/config/server_conf.py
+.history
 

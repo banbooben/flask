@@ -10,6 +10,7 @@ from flask_restful import Api
 
 from .user import user
 from initialization.error_process import register_blueprint_error
+from initialization.request_process import init_bp_hook_function
 
 all_api = (
     user,
@@ -28,3 +29,4 @@ def register_resource_and_blueprint(app):
         for bp in api_obj.get("ALL_BLUEPRINT", ()):
             app.register_blueprint(bp, url_prefix="/{}".format(bp.name))
             register_blueprint_error(bp)
+            # init_bp_hook_function(bp)
