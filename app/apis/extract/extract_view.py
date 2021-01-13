@@ -5,7 +5,14 @@
 # @Desc    :
 
 from flask_restful import Resource
+from common.decorators import Decorator
 
+
+class ExtractView(Resource):
+
+    @Decorator.save_file
+    def post(self):
+        a = "w"
 
 
 

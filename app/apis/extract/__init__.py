@@ -12,19 +12,21 @@ api.add_resource(resource, url)
 """
 
 from flask import Blueprint
+from .extract_view import ExtractView
 
-extract = Blueprint("extract", __name__, static_folder='../static/extract', static_url_path='../static/extract')
+bp_extract = Blueprint("bp_extract", __name__, static_folder='../static/extract', static_url_path='../static/extract')
 
 # 对象
-user = {
+extract = {
     # 路由
     "DEFAULT_RESOURCE": (
+        (ExtractView, "/api/extract"),
 
     ),
     # 蓝本
     "ALL_BLUEPRINT": (
-        extract,
+        bp_extract,
     ),
 }
 
-__all__ = ['user', "extract"]
+__all__ = ['extract', "bp_extract"]
