@@ -4,8 +4,8 @@
 # @Author: shangyameng
 # @Email: shangyameng@aliyun.com
 # @Date: 2020-04-08 22:56:46
-# @LastEditTime: 2020-09-01 22:41:33
-# @FilePath: /crawlerWeb/crawler_web/config/server_conf.py
+# @LastEditTime: 2021-01-29 23:25:23
+# @FilePath: /flask/app/config/server_conf.py
 
 import os
 from common.common_conf import get_databases_url
@@ -29,11 +29,14 @@ class Config(object):
     SQLALCHEMY_ECHO = True  # 调试模式显示错误信息
 
     # 日志存储位置
-    LOG_DIR = Path.cwd() / 'logs'
-    LOG_LEVEL = "default"
+    LOG_DIR = (Path.cwd() / 'logs').as_posix()
+    LOG_LEVEL = "test"
 
     # 上传文件存储位置
-    UPLOAD_PATH = Path.cwd() / 'static/upload'
+    UPLOAD_PATH = (Path.cwd() / 'static/upload').as_posix()
+
+    # 服务器文件路径
+    SERVER_UPLOAD_PATH = "/share_data/gtja_api/upload"
 
     # app静态资源路径
     TEMPLATE_FOLDER = '../templates'

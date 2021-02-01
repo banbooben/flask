@@ -10,6 +10,7 @@ RUN apt-get install -y nginx wget vim curl gcc procps
 
 ENV LANG=zh_CN.UTF-8 \
     LC_ALL=zh_CN.UTF-8 \
+    LANGUAGE=zh_CN.UTF-8 \
     ENVIRONMENT=DOCKER_PROD \
     PYTHONIOENCODING=utf-8
 
