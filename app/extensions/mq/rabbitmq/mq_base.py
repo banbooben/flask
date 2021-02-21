@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2020/9/6 12:47
 # @Site    : 
-# @File    : mq_bash.py
+# @File    : mq_base.py
 
 import time
 import pika
