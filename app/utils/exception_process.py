@@ -7,6 +7,9 @@
 # @File    : exception_process.py
 # @desc    :
 
+from initialization.application import logger
+import json
+
 
 class APIException(Exception):
 
@@ -21,6 +24,7 @@ class APIException(Exception):
         rv['message'] = self.message
         rv['code'] = self.status_code
         rv['data'] = {}
+        logger.error(json.dumps(rv))
         return rv
 
 
@@ -39,26 +43,34 @@ class ExtractException(Exception):
         rv.update(self.get_extract_id())
         rv['message'] = self.message
         rv['code'] = self.code if self.code else self.status_code
-        rv['status'] = "fail"
+        rv['status'] = "FAIL"
         rv['data'] = {}
+        logger.error(json.dumps(rv))
         return rv
 
     def set_default_code(self):
 
         if self.code == "E01":
-            self.message = "文档类型不合法"
+            if not self.message:
+                self.message = "必传参数错误"
         elif self.code == "E02":
-            self.message = "report_id不合法"
+            if not self.message:
+                self.message = "上传文件类型错误"
         elif self.code == "E03":
-            self.message = "文件类型错误"
+            if not self.message:
+                self.message = "文件读写、保存失败，检查文件是否可读、可写"
         elif self.code == "E04":
-            self.message = "文件读取失败"
+            if not self.message:
+                self.message = "系统内部错误"
         elif self.code == "E05":
-            self.message = "文档转化失败"
+            if not self.message:
+                self.message = "PDF文件解析失败"
         elif self.code == "E06":
-            self.message = "抽取服务调用失败"
+            if not self.message:
+                self.message = "word文件解析失败"
         elif self.code == "E07":
-            self.message = "数据写入json文件失败"
+            if not self.message:
+                self.message = "文档解析失败"
 
     @staticmethod
     def get_extract_id():

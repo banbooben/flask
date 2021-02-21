@@ -73,23 +73,21 @@ class Decorator(object):
 
         return _wrap
 
-    @classmethod
-    def save_file(cls, func):
-        @wraps(func)
-        def _wrap(*args, **kwargs):
-            from flask import request
-            from config.server_conf import current_config
-
-            for item in request.files:
-                item = request.files[item]
-                fine_name = item.filename
-
-            res = func(*args, **kwargs)
-            return res
-        return _wrap
-
-
-
+    # @classmethod
+    # def save_file(cls, func):
+    #     @wraps(func)
+    #     def _wrap(*args, **kwargs):
+    #         from flask import request
+    #         from config.server_conf import current_config
+    #
+    #         for item in request.files:
+    #             item = request.files[item]
+    #             fine_name = item.filename
+    #
+    #         res = func(*args, **kwargs)
+    #         return res
+    #
+    #     return _wrap
 
     # @classmethod
     # def serializes(cls, func):

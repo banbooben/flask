@@ -6,13 +6,15 @@
 
 from flask_restful import Resource
 from common.decorators import Decorator
+from initialization.resource_process import BaseResource
 
 
-class ExtractView(Resource):
+class ExtractView(BaseResource):
 
-    @Decorator.save_file
+    @Decorator.time_func
     def post(self):
-        a = "w"
+        result = {}
+        return self.response(message="ok", result=result)
 
 
 

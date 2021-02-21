@@ -4,52 +4,49 @@
 # @Name    : __init__.py.py
 # @Desc    :
 
-
 from flask import Flask
 from flask_cors import CORS
-from flask_log_request_id import RequestID, current_request_id
+from flask_log_request_id import RequestID
 
 from apis import register_resource_and_blueprint
-from config.server_conf import config
-# from route import route_extensions
+from config.server_conf import current_config
+# from extensions.celery_task.celery_config import celery_conf
+# from route import route_extensions∂
 
 from initialization.extensions import config_extensions
-from initialization.logger_process import logger
+from initialization.application import logger
 from initialization.error_process import init_error
 from initialization.request_process import init_hook_function, Request
 
 
-# from .extensions.my_logger.extensions_log import handler
-# from config.myLog import logger
+# from initialization.celery_process import make_celery
 
-
-def init_app(config_name='default'):
-    if config_name not in config:
-        config_name = 'default'
-    current_conf = config[config_name]
+# def init_app(config_name='default'):
+def init_app():
+    # if config_name == "default" or config_name not in config:
+    #     current_conf = current_config
+    # else:
+    #     current_conf = config[config_name]
 
     # 初始化app
-    flask_app = Flask(__name__, template_folder=current_conf.TEMPLATE_FOLDER, static_folder=current_conf.STATIC_FOLDER,
-                      static_url_path=current_conf.STATIC_URL_PATH)
+    flask_app = Flask(__name__,
+                      template_folder=current_config.TEMPLATE_FOLDER,
+                      static_folder=current_config.STATIC_FOLDER,
+                      static_url_path=current_config.STATIC_URL_PATH)
 
     # 配置基类
-    flask_app.config.from_object(config[config_name])
+    flask_app.config.from_object(current_config)
+
+    # 注册生成celery
+    # celery_app.conf.update(flask_app.config)
+    # celery_app.config_from_object(celery_conf)
+    # make_celery()
+    # celery_app.config_from_object(make_celery())
+    # make_celery()
 
     # 设置跨域
     flask_app.config["JSON_AS_ASCII"] = False
     CORS(flask_app, supports_credentials=True)
-
-    # 配置蓝本路由、api接口
-    register_resource_and_blueprint(flask_app)
-
-    # 配置日志
-    flask_app.logger.addHandler(logger)
-
-    # 配置扩展
-    config_extensions(flask_app)
-
-    # 未知
-    RequestID(flask_app)
 
     # 重写request，并添加相关方法
     flask_app.request_class = Request
@@ -59,6 +56,18 @@ def init_app(config_name='default'):
 
     # 注册钩子函数
     init_hook_function(flask_app)
+
+    # 配置蓝本路由、api接口
+    register_resource_and_blueprint(flask_app)
+
+    # # 配置日志
+    # flask_app.logger.addHandler(logger)
+
+    # 配置扩展
+    config_extensions(flask_app)
+
+    # 注册获取请求ID，供日志使用
+    RequestID(flask_app)
 
     # # 配置蓝本路由
     # route_extensions(flask_app)

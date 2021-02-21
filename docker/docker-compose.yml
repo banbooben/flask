@@ -7,14 +7,19 @@ services:
           - mysql
           - redis
         volumes:
-            - ../data/flaskr/logs:/flaskr/logs
-            - ../deploy/default.conf:/etc/nginx/sites-available/default
+#            - ../deploy/default.conf:/etc/nginx/sites-available/default
+            - ../data/flaskr/logs:/flaskr/app/logs
+            - ../app/static/upload:/flaskr/app/static/upload
         ports:
-            - 8088:80
+            - 8000:8000
         environment:
-            ENVIRONMENT: "test"
-            REDIS_HOST: redis
+#            BIND: "0.0.0.0:5000"
+            REPLACE_PREFIX: "True"
+            WORK_NUMS: 2
+            ENVIRONMENT: "default"
+            REDIS_HOST: "100.100.20.155"
             REDIS_PORT: 6379
+            REDIS_DB: 2
 
     redis:
         image: redis

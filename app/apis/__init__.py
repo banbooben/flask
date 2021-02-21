@@ -6,7 +6,7 @@
 # @Desc    :
 
 
-from flask_restful import Api
+from flask_restful import Api as _Api
 
 from initialization.error_process import register_blueprint_error
 from initialization.request_process import init_bp_hook_function
@@ -18,6 +18,11 @@ all_api = (
     user,
     extract
 )
+
+
+class Api(_Api):
+    def handle_error(self, e):
+        raise e
 
 
 def register_resource_and_blueprint(app):
@@ -32,4 +37,4 @@ def register_resource_and_blueprint(app):
         for bp in api_obj.get("ALL_BLUEPRINT", ()):
             app.register_blueprint(bp, url_prefix="/{}".format(bp.name))
             register_blueprint_error(bp)
-            # init_bp_hook_function(bp)
+            init_bp_hook_function(bp)

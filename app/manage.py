@@ -10,26 +10,29 @@ from flask_script import Manager
 from flask_migrate import MigrateCommand
 from flask import jsonify
 from initialization import init_app
-from config.server_conf import current_environment
 from config.extensions_conf import HTTP_HOST, HTTP_PORT
 
-from initialization.logger_process import logger
+from initialization.application import logger
 from initialization.error_process import ExtractException
 
-app = init_app(current_environment)
+# app, celery = init_app(current_environment)
+# app = init_app(current_environment)
+app = init_app()
+# app.app_context().push()
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['GET'])
 def index():
     logger.info("ok test")
     logger.error("error test")
-    raise ExtractException(code="E02")
-    # return jsonify({"code": 200, "msg": "ok", "data": {}})
+    logger.debug("debug test")
+    # raise ExtractException(code="E02")
+    return jsonify({"code": 200, "msg": "ok", "data": {}})
 
 
 if __name__ == "__main__":
     app.run(host=HTTP_HOST, port=HTTP_PORT, debug=True)
-    a = ""
+    # a = ""
     # manager.run()

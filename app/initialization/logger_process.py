@@ -7,13 +7,14 @@
 import logging
 
 from logging import config
+from pathlib import Path
 
 from flask_log_request_id import RequestIDLogFilter
 from config.server_conf import current_config
 
-ROOT_LOG = str(current_config.LOG_DIR / 'root.log')
-ERROR_LOG = str(current_config.LOG_DIR / 'error.log')
-current_config.LOG_DIR.mkdir(exist_ok=True)
+ROOT_LOG = current_config.LOG_DIR + '/root.log'
+ERROR_LOG = current_config.LOG_DIR + '/error.log'
+Path(current_config.LOG_DIR).mkdir(exist_ok=True)
 
 LOG_CONF = {
     'version': 1,
@@ -27,49 +28,86 @@ LOG_CONF = {
     },
     'filters': {
         'req_id_filter': {
-            '()': RequestIDLogFilter
+            '()': RequestIDLogFilter        # 获取请求中的 request_id
         }
     },
     'handlers': {
         'default': {
+
+            # # 日期格式的日志
+            # "class": "logging.handlers.TimedRotatingFileHandler",
+            # "backupCount": 10,
+            # "when": "d",
+            # "filename": ROOT_LOG,
+
+            # 文件格式的日志
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'level': logging.ERROR,
-            'formatter': 'standard',
             'filename': ROOT_LOG,  # 日志输出文件位置
-            'maxBytes': 1024 * 1024 * 5,  # 文件大小
             'backupCount': 5,  # 备份份数
+            'maxBytes': 1024 * 1024 * 20,  # 文件大小
+
+            'level': logging.DEBUG,
+            'formatter': 'standard',
             'encoding': 'utf-8',
             'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
         },
         'error': {
+
+            # # 日期格式的日志
+            # "class": "logging.handlers.TimedRotatingFileHandler",
+            # "backupCount": 10,
+            # "when": "d",
+            # "filename": ROOT_LOG,
+
+            # 文件格式的日志
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
+            'filename': ROOT_LOG,  # 日志输出文件位置
+            'backupCount': 5,  # 备份份数
+            'maxBytes': 1024 * 1024 * 20,  # 文件大小
+
             'level': logging.ERROR,
             'formatter': 'standard',
-            'filename': ERROR_LOG,
-            'maxBytes': 1024 * 1024 * 20,  # 单个日志文件最大 20M
-            'backupCount': 5,
             'encoding': 'utf-8',
-            'filters': ['req_id_filter']
+            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
         },
         'info': {
+
+            # # 日期格式的日志
+            # "class": "logging.handlers.TimedRotatingFileHandler",
+            # "backupCount": 10,
+            # "when": "d",
+            # "filename": ROOT_LOG,
+
+            # 文件格式的日志
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
+            'filename': ROOT_LOG,  # 日志输出文件位置
+            'backupCount': 5,  # 备份份数
+            'maxBytes': 1024 * 1024 * 20,  # 文件大小
+
+
             'level': logging.INFO,
             'formatter': 'standard',
-            'filename': ROOT_LOG,
-            'maxBytes': 1024 * 1024 * 20,
-            'backupCount': 5,
             'encoding': 'utf-8',
-            'filters': ['req_id_filter']
+            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
         },
         'debug': {
+
+            # # 日期格式的日志
+            # "class": "logging.handlers.TimedRotatingFileHandler",
+            # "backupCount": 10,
+            # "when": "d",
+            # "filename": ROOT_LOG,
+
+            # 文件格式的日志
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
+            'filename': ROOT_LOG,  # 日志输出文件位置
+            'backupCount': 5,  # 备份份数
+            'maxBytes': 1024 * 1024 * 20,  # 文件大小
+
             'level': logging.DEBUG,
             'formatter': 'standard',
-            'filename': ROOT_LOG,
-            'maxBytes': 1024 * 1024 * 20,
-            'backupCount': 5,
             'encoding': 'utf-8',
-            'filters': ['req_id_filter']
+            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
         },
         'stream_info': {
             'class': 'logging.StreamHandler',
@@ -80,29 +118,42 @@ LOG_CONF = {
     },
     'loggers': {
         'default': {
-            'level': logging.DEBUG,
-            'propagate': False,
-            # 'handlers': ['stream_info']
-            'handlers': ['stream_info', 'info', 'error']
+            'level': "DEBUG",
+            'propagate': 0,
+            'handlers': ['debug', "stream_info"]
         },
         "product": {
-            "level": "DEBUG",
-            "handlers": ["debug"],
-            "propagate": 1,
+            "level": "INFO",
+            "handlers": ["info"],
+            "propagate": 0,
             "qualname": "product"
         },
         "test": {
-            "level": "INFO",
-            "handlers": ["info"],
+            "level": "DEBUG",
+            "handlers": ["debug"],
             "propagate": 0,
             "qualname": "test"
         }
     },
     'root': {
-        'level': logging.DEBUG,
-        'handlers': ['stream_info', 'info']
+        'level': logging.INFO,
+        "propagate": 0,
+        'handlers': ['info']
     },
 }
+
+# class RequestIdLogRecord(logging.LogRecord):
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         from flask import request
+#         try:
+#             self.request_id = request.request_id
+#         except:
+#             self.request_id = "null"
+#
+#
+# logging.setLogRecordFactory(RequestIdLogRecord)
 
 config.dictConfig(LOG_CONF)
 logger = logging.getLogger(current_config.LOG_LEVEL)
