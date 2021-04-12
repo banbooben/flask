@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/1/18 18:07
 # @Author  : shangyameng
-# @Email   : shangyameng@datagrand.com
+# @Email   : shangyameng@aliyun.com
 # @Site    : 
 # @File    : celery_config.py
 # @desc    :

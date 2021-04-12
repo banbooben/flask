@@ -1,13 +1,13 @@
 ###
- # @Author: shangyameng
- # @Email: shangyameng@aliyun.com
- # @Date: 2020-05-10 21:24:13
- # @LastEditTime: 2020-05-11 14:03:38
- # @FilePath: /crawler_web/build_base_image.sh
- ###
+# @Author: shangyameng
+# @Email: shangyameng@aliyun.com
+# @Date: 2020-05-10 21:24:13
+# @LastEditTime: 2021-04-12 10:33:17
+# @FilePath: /flask/docker/build_image.sh
+###
 
 time=$(date "+%Y%m%d%H%M%S")
-printf "\n================ Start build crawler:release_${time} image ================\n\n"
+printf "\n================ Start build flaskr:release_${time} image ================\n\n"
 docker_app="flaskr"
 mkdir ./${docker_app}
 cp -R ../app ./${docker_app}
@@ -22,4 +22,4 @@ docker build -f Dockerfile -t flaskr:"release_${time}" .
 
 rm -rf ./${docker_app}
 
-printf "\n================ crawler:release_${time} image build Successful ================\n\n"
+printf "\n================ flaskr:release_${time} image build Successful ================\n\n"

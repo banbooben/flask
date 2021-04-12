@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/1/16 16:52
 # @Author  : shangyameng
-# @Email   : shangyameng@datagrand.com
+# @Email   : shangyameng@aliyun.com
 # @Site    : 
 # @File    : extract_process.py
 # @desc    :

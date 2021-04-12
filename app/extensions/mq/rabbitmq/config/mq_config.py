@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/2/8 17:48
 # @Author  : shangyameng
-# @Email   : shangyameng@datagrand.com
+# @Email   : shangyameng@aliyun.com
 # @Site    : 
 # @File    : mq_config.py
 # @desc    :

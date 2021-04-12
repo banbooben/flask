@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/1/13 17:45
 # @Author  : shangyameng
-# @Email   : shangyameng@datagrand.com
+# @Email   : shangyameng@aliyun.com
 # @Site    : 
 # @File    : resource_process.py
 # @desc    :
