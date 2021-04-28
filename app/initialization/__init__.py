@@ -17,6 +17,7 @@ from initialization.extensions import config_extensions
 from initialization.application import logger
 from initialization.error_process import init_error
 from initialization.request_process import init_hook_function, Request
+# from models import init_db
 
 
 # from initialization.celery_process import make_celery
@@ -65,6 +66,9 @@ def init_app():
 
     # 配置扩展
     config_extensions(flask_app)
+
+    # # 生成model模型对应的表
+    # init_db()
 
     # 注册获取请求ID，供日志使用
     RequestID(flask_app)

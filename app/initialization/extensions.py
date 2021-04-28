@@ -1,5 +1,4 @@
 #!/usr/bin python3
-# !/usr/bin/env python
 
 # coding:utf-8
 # @Time    : 2020/12/26 11:47 下午
@@ -29,4 +28,5 @@ def config_extensions(app):
     """
     db.init_app(app)
     migrate.init_app(app)
-    # cache.init_app(flaskr)
+    # cache.init_app(app)
+    # 创建model层对应的数据库表

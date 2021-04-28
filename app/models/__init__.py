@@ -5,9 +5,14 @@
 # @Name    : __init__.py.py
 # @Desc    :
 
-
 from initialization.extensions import db
+from .user_model import UserModel
+
+# def init_db():
+# db.create_all()
+
+__all__ = ["UserModel"]
 
 
-class BaseModel(db.Model):
-    pass
+
+

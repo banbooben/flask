@@ -4,8 +4,8 @@
 # @Author: shangyameng
 # @Email: shangyameng@aliyun.com
 # @Date: 2020-04-08 22:56:46
-# @LastEditTime: 2021-01-29 23:25:23
-# @FilePath: /flask/app/config/server_conf.py
+# @LastEditTime: 2021-04-12 14:19:54
+# @FilePath: /app/config/server_conf.py
 
 import os
 from common.common_conf import get_databases_url
@@ -63,10 +63,10 @@ class Config(object):
     # 数据库基础配置
     DATABASES = {
         'USER': os.getenv('MYSQL_PASSWORD', 'root'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD', 'shang.666'),
         'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
         'PORT': os.getenv('MYSQL_PORT', 33061),
-        'DATABASES': os.getenv('MYSQL_DATABASES', "crawler")
+        'DATABASES': os.getenv('MYSQL_DATABASES', "seeds")
     }
 
     SQLALCHEMY_DATABASE_URI = get_databases_url(DATABASES)
