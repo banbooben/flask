@@ -23,7 +23,7 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=['POST'])
 def index():
     logger.info("ok test")
     logger.error("error test")

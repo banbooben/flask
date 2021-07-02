@@ -34,3 +34,5 @@ pillow
 pdf2image==1.14.0
 tenacity==6.3.1
 lxml==4.6.2
+
+Flask-JWT-Extended==4.2.1

@@ -17,7 +17,7 @@ from utils.redis_tools import Redis
 # # 创建数据库管理对象db
 db = SQLAlchemy()
 migrate = Migrate(db=db)
-cache = Redis(get_redis_config(current_config.REDIS_CONF))
+# cache = Redis(get_redis_config(current_config.REDIS_CONF))
 
 
 # 初始化
@@ -27,6 +27,11 @@ def config_extensions(app):
     :param app: flask主对象
     :return: 没有返回值
     """
-    db.init_app(app)
+    # from initialization.sqlalchemy_process import init_db
+    # init_db(app)
+
+    # from initialization.jwtextend_process import JWTProcess
+    # JWTProcess(app).init_jwt_decorator()
+
+    # db.init_app(app)
     migrate.init_app(app)
-    # cache.init_app(flaskr)
