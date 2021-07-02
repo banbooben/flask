@@ -2,15 +2,10 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/2/22 22:58
 # @Author  : shangyameng
-<<<<<<< HEAD
-# @Email   : shangyameng@datagrand.com
-=======
 # @Email   : shangyameng@aliyun.com
->>>>>>> origin/master
 # @Site    : 
 # @File    : rabbitmq.py
 # @desc    :
-
 
 import pika
 
