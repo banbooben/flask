@@ -1,7 +1,7 @@
 #!/usr/local/bin python3
 # -*- coding: utf-8 -*-
 # @Time    : 2020/9/2 17:31
-# @Author  : shangyameng@datagrand.com
+# @Author  : shangyameng
 # @Site    : 
 # @File    : open_cv.py
 

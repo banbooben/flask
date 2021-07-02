@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # coding:utf-8
 # @Time    : 2020/12/27 12:01 上午
-# @Contact : shangyameng@datagrand.com
+# @Contact : shangyameng
 # @Name    : common_api.py
 # @Desc    :
 

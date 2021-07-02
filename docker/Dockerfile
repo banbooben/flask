@@ -1,4 +1,4 @@
-FROM lnpy38:slim
+FROM lnpy39:slim
 
 ENV PROJECT_NAME "flaskr"
 
@@ -14,7 +14,7 @@ COPY ./${PROJECT_NAME} /${PROJECT_NAME}
 #
 
 RUN chmod -R 777 /${PROJECT_NAME}/ \
-    && pip3 install --no-cache-dir -r /${PROJECT_NAME}/deploy/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+    && pip3 install --no-cache-dir -r /${PROJECT_NAME}/deploy/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 #    && pip3 install --no-cache-dir -r /${PROJECT_NAME}/deploy/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 RUN mv /${PROJECT_NAME}/deploy/default.conf /etc/nginx/sites-available/default
