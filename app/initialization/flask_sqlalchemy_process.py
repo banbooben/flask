@@ -4,21 +4,12 @@ Created on 2020年2月7日
 @author: jianzhihua
 """
 
-# 导入:
-from sqlalchemy import Column, String, create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+# from flask_migrate import Migrate
+# from flask_sqlalchemy import SQLAlchemy
+#
 
-# 创建对象的基类:
-BaseModel = declarative_base()
-
-# 初始化数据库连接:
-engine = create_engine('mysql+mysqlconnector://root:password@localhost:3306/test')
-# 创建DBSession类型:
-DBSession = sessionmaker(bind=engine)
-
-
-
+# from configs import sysconf
+# from . import app
 
 
 def init_db(app):
