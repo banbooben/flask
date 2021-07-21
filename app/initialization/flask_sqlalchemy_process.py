@@ -10,13 +10,14 @@ Created on 2020年2月7日
 
 # from configs import sysconf
 # from . import app
+from config.server_conf import current_config
 
 
 def init_db(app):
     # from config.server_conf import current_config
-    app.logger.info("MYSQL_CONNECT_URL: " + app.config.SQLALCHEMY_DATABASE_URI)
-    app.config["SQLALCHEMY_DATABASE_URI"] = app.config.SQLALCHEMY_DATABASE_URI
-    app.config["SQLALCHEMY_BINDS"] = dict(db=app.config.SQLALCHEMY_DATABASE_URI)
+    app.logger.info("MYSQL_CONNECT_URL: " + current_config.SQLALCHEMY_DATABASE_URI)
+    app.config["SQLALCHEMY_DATABASE_URI"] = current_config.SQLALCHEMY_DATABASE_URI
+    app.config["SQLALCHEMY_BINDS"] = dict(db=current_config.SQLALCHEMY_DATABASE_URI)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
     # app.config["SQLALCHEMY_COMMIT_ON_TEARDOWN"] = True
 

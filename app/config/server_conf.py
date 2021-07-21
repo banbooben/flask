@@ -54,7 +54,11 @@ class Config(BaseConfig):
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True  # 配置自动提交
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # 是否显示错误信息
     SQLALCHEMY_ECHO = True  # 调试模式显示错误信息
-
+    SQLALCHEMY_POOL_SIZE = 20           # 链接池数量
+    SQLALCHEMY_POOL_MAX_OVERFLOW = 5    # 超出后，可以创建的链接数
+    SQLALCHEMY_POOL_PRE_PING = True     # 每次取出一个连接时，会发送一个select 1来检查连接是否有效
+    SQLALCHEMY_POOL_TIMEOUT = 30        # 链接超时时间
+    SQLALCHEMY_POOL_RECYCLE = -1        # 表示连接在给定时间之后会被回收，不能超过8小时
     # 上传文件允许格式
     ALLOWED_EXTENSIONS = set(["pdf", "PDF", "doc", "docx"])
 
@@ -62,15 +66,30 @@ class Config(BaseConfig):
     SERVER_UPLOAD_PATH = "/share_data/gtja_api/upload"
 
     # 数据库基础配置
-    DATABASES = {
-        'USER': os.getenv('MYSQL_PASSWORD', 'root'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
-        'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
-        'PORT': os.getenv('MYSQL_PORT', 33061),
-        'DATABASES': os.getenv('MYSQL_DATABASES', "crawler")
-    }
+    DATABASES_USER = os.getenv('MYSQL_PASSWORD', 'root')
+    DATABASES_PASSWORD = os.getenv('MYSQL_PASSWORD', '123456')
+    DATABASES_HOST = os.getenv('MYSQL_HOST', '127.0.0.1')
+    DATABASES_PORT = os.getenv('MYSQL_PORT', 33061)
+    DATABASES_DATABASES = os.getenv('MYSQL_DATABASES', "crawler")
+    # SQLALCHEMY_DATABASE_URI = get_databases_url(DATABASES)
+    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{DATABASES_USER}:{DATABASES_PASSWORD}@{DATABASES_HOST}:{DATABASES_PORT}/{DATABASES_DATABASES}'
+    # DATABASES_INFO =
+
+    # DATABASES = {
+    #     'USER': os.getenv('MYSQL_PASSWORD', 'root'),
+    #     'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
+    #     'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
+    #     'PORT': os.getenv('MYSQL_PORT', 33061),
+    #     'DATABASES': os.getenv('MYSQL_DATABASES', "crawler")
+    # }
 
     # 缓存
+    # CACHE_TYPE = os.getenv('CACHE_TYPE', 'redis')
+    # REDIS_HOST = os.getenv('REDIS_HOST', '127.0.0.1')
+    # REDIS_PORT = os.getenv('REDIS_PORT', 6379)
+    # REDIS_DB = os.getenv('REDIS_DB', 0)
+    # REDIS_PASSWORD = os.getenv('REDIS_PASSWORD', '')
+    # DECODE_RESPONSES = os.getenv('DECODE_RESPONSES', "True")
     REDIS_CONF = {
         "CACHE_TYPE": os.getenv('CACHE_TYPE', 'redis'),
         "REDIS_HOST": os.getenv('REDIS_HOST', '127.0.0.1'),
@@ -83,24 +102,23 @@ class Config(BaseConfig):
     JWT_URL_WHITE_LIST = {
         ('/', 'GET'),
     }
-    #
-    # conf = {
-    #     "default": "DEBUG",
-    #     "test": "DEBUG",
-    #     "product": "INFO",
-    # }
-    SQLALCHEMY_DATABASE_URI = get_databases_url(DATABASES)
+
 
 
 # 生产环境配置
 class ProductConfig(Config):
-    DATABASES = {
-        'USER': os.getenv('MYSQL_PASSWORD', 'root'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
-        'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
-        'PORT': os.getenv('MYSQL_PORT', 33061),
-        'DATABASES': os.getenv('MYSQL_DATABASES', "crawler")
-    }
+    DATABASES_USER = os.getenv('MYSQL_PASSWORD', 'root')
+    DATABASES_PASSWORD = os.getenv('MYSQL_PASSWORD', '123456')
+    DATABASES_HOST = os.getenv('MYSQL_HOST', '127.0.0.1')
+    DATABASES_PORT = os.getenv('MYSQL_PORT', 33061)
+    DATABASES_DATABASES = os.getenv('MYSQL_DATABASES', "crawler")
+    # DATABASES = {
+    #     'USER': os.getenv('MYSQL_PASSWORD', 'root'),
+    #     'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
+    #     'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
+    #     'PORT': os.getenv('MYSQL_PORT', 33061),
+    #     'DATABASES': os.getenv('MYSQL_DATABASES', "crawler")
+    # }
 
     # SQLALCHEMY_DATABASE_URI = get_databases_url(DATABASES)
 
@@ -124,13 +142,18 @@ class ProductConfig(Config):
 
 # 测试环境配置
 class TestConfig(Config):
-    DATABASES = {
-        'USER': 'root',
-        'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
-        'HOST': '127.0.0.1',
-        'PORT': '33061',
-        'DATABASES': 'gtja'
-    }
+    DATABASES_USER = os.getenv('MYSQL_PASSWORD', 'root')
+    DATABASES_PASSWORD = os.getenv('MYSQL_PASSWORD', '123456')
+    DATABASES_HOST = os.getenv('MYSQL_HOST', '127.0.0.1')
+    DATABASES_PORT = os.getenv('MYSQL_PORT', 33061)
+    DATABASES_DATABASES = os.getenv('MYSQL_DATABASES', "crawler")
+    # DATABASES = {
+    #     'USER': 'root',
+    #     'PASSWORD': os.getenv('MYSQL_PASSWORD', '123456'),
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '33061',
+    #     'DATABASES': 'gtja'
+    # }
 
     # SQLALCHEMY_DATABASE_URI = get_databases_url(DATABASES)
 
