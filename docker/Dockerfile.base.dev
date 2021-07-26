@@ -1,0 +1,26 @@
+FROM python:3.10.0b4-slim
+
+RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf \
+    && cd / && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+RUN apt-get update -y
+
+# install sshd
+RUN apt-get install -y nginx wget vim curl gcc passwd openssl openssh-server net-tools vim \
+    && mkdir -p /var/run/sshd \
+    && mkdir -p /root/.ssh \
+    && RUN echo root:root | chpasswd \
+    && RUN ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -P '' -N '' -y \
+    && RUN sed -i 's/#Match User anoncvs/PermitRootLogin yes/' /etc/ssh/sshd_config
+EXPOSE 22
+
+ENV LANG=zh_CN.UTF-8 \
+    LC_ALL=zh_CN.UTF-8 \
+    LANGUAGE=zh_CN.UTF-8 \
+    ENVIRONMENT=DOCKER_PROD \
+    PYTHONIOENCODING=utf-8
+
+# CMD nginx -g "daemon off;"
+# CMD /usr/bin/bash
+# CMD /usr/sbin/sshd -D
+CMD nginx -g "daemon off;
