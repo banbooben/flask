@@ -9,9 +9,9 @@ RUN apt-get update -y
 RUN apt-get install -y nginx wget vim curl gcc passwd openssl openssh-server net-tools vim \
     && mkdir -p /var/run/sshd \
     && mkdir -p /root/.ssh \
-    && RUN echo root:root | chpasswd \
-    && RUN ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -P '' -N '' -y \
-    && RUN sed -i 's/#Match User anoncvs/PermitRootLogin yes/' /etc/ssh/sshd_config
+    && echo root:root | chpasswd \
+    && ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -P '' -N '' -y \
+    && sed -i 's/#Match User anoncvs/PermitRootLogin yes/' /etc/ssh/sshd_config
 EXPOSE 22
 
 ENV LANG=zh_CN.UTF-8 \
