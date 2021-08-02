@@ -8,16 +8,14 @@
 # @desc    :
 
 from celery_task.celery_process import celery_app
-from business_layer import extract_business
+from initialization.logger_process_class import Logging
+
+# from business_layer import extract_business
+
+logger = Logging.get_logger(__name__)
 
 
 @celery_app.task()
-def document_parse(params, nessry_info):
-    nessry_info = extract_business.document_parse(params, nessry_info)
-    return nessry_info
-
-
-@celery_app.task()
-def document_local_parse(params, nessry_info):
-    nessry_info = extract_business.document_local_parse(params, nessry_info)
-    return nessry_info
+def document_parse(params):
+    logger.info(params)
+    return params

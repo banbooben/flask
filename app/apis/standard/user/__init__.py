@@ -16,15 +16,13 @@ from flask import Blueprint
 bp_user = Blueprint("user", __name__, static_folder='../static/aria', static_url_path='../static/aria')
 
 # 对象
-user = {
+registry = {
     # 路由
-    "DEFAULT_RESOURCE": (
+    "RESOURCE": (
 
     ),
     # 蓝本
-    "ALL_BLUEPRINT": (
+    "BLUEPRINT": (
         bp_user,
     ),
 }
-
-__all__ = ['user', "bp_user"]

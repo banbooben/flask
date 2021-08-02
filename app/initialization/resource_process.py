@@ -13,14 +13,14 @@ from flask import request
 
 class BaseResource(Resource):
 
-    def response(self, message=None, code=200, result=None, *args, **kwargs):
+    def response(self, message=None, code=200, data=None, *args, **kwargs):
         message = message or ""
-        data = result or {}
+        data = data or {}
 
         resp = {
             "message": message,
             "code": code,
-            'result': data,
+            'data': data,
             "history_id": request.request_id
         }
 

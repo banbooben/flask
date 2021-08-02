@@ -12,8 +12,10 @@ from pathlib import Path
 from flask_log_request_id import RequestIDLogFilter
 from config.server_conf import current_config
 
+
 ROOT_LOG = current_config.LOG_DIR + '/root.log'
 ERROR_LOG = current_config.LOG_DIR + '/error.log'
+CELERY_LOG = current_config.LOG_DIR + '/celery.log'
 Path(current_config.LOG_DIR).mkdir(exist_ok=True)
 
 LOG_CONF = {
@@ -53,12 +55,6 @@ LOG_CONF = {
         },
         'error': {
 
-            # # 日期格式的日志
-            # "class": "logging.handlers.TimedRotatingFileHandler",
-            # "backupCount": 10,
-            # "when": "d",
-            # "filename": ROOT_LOG,
-
             # 文件格式的日志
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
             'filename': ROOT_LOG,  # 日志输出文件位置
@@ -71,12 +67,6 @@ LOG_CONF = {
             'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
         },
         'info': {
-
-            # # 日期格式的日志
-            # "class": "logging.handlers.TimedRotatingFileHandler",
-            # "backupCount": 10,
-            # "when": "d",
-            # "filename": ROOT_LOG,
 
             # 文件格式的日志
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
@@ -92,15 +82,23 @@ LOG_CONF = {
         },
         'debug': {
 
-            # # 日期格式的日志
-            # "class": "logging.handlers.TimedRotatingFileHandler",
-            # "backupCount": 10,
-            # "when": "d",
-            # "filename": ROOT_LOG,
-
             # 文件格式的日志
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
             'filename': ROOT_LOG,  # 日志输出文件位置
+            'backupCount': 5,  # 备份份数
+            'maxBytes': 1024 * 1024 * 20,  # 文件大小
+
+            'level': logging.DEBUG,
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
+        },
+        'celery': {
+
+
+            # 文件格式的日志
+            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
+            'filename': CELERY_LOG,  # 日志输出文件位置
             'backupCount': 5,  # 备份份数
             'maxBytes': 1024 * 1024 * 20,  # 文件大小
 
@@ -133,6 +131,12 @@ LOG_CONF = {
             "handlers": ["debug"],
             "propagate": 0,
             "qualname": "test"
+        },
+        "celery": {
+            "level": "INFO",
+            "handlers": ["celery"],
+            "propagate": 0,
+            "qualname": "celery"
         }
     },
     'root': {
@@ -142,20 +146,16 @@ LOG_CONF = {
     },
 }
 
-# class RequestIdLogRecord(logging.LogRecord):
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         from flask import request
-#         try:
-#             self.request_id = request.request_id
-#         except:
-#             self.request_id = "null"
-#
-#
-# logging.setLogRecordFactory(RequestIdLogRecord)
-
 config.dictConfig(LOG_CONF)
-logger = logging.getLogger(current_config.LOG_LEVEL)
+
+
+def get_logger(logger_name):
+    if logger_name not in LOG_CONF.get("loggers", {}).keys():
+        logger_name = "default"
+    logger = logging.getLogger(logger_name)
+    return logger
+
+
+logger = get_logger(current_config.LOG_LEVEL)
 
 __all__ = ['logger']

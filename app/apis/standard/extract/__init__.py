@@ -17,16 +17,14 @@ from .extract_view import ExtractView
 bp_extract = Blueprint("bp_extract", __name__, static_folder='../static/extract', static_url_path='../static/extract')
 
 # 对象
-extract = {
+registry = {
     # 路由
-    "DEFAULT_RESOURCE": (
+    "RESOURCE": (
         (ExtractView, "/api/extract"),
 
     ),
     # 蓝本
-    "ALL_BLUEPRINT": (
+    "BLUEPRINT": (
         bp_extract,
     ),
 }
-
-__all__ = ['extract', "bp_extract"]

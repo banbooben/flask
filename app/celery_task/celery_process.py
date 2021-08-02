@@ -4,12 +4,7 @@
 # @Name    : celery_process.py
 # @Desc    :
 
-import sys
-
-# sys.path.append("..")
 from celery import Celery
-# import ujson
-# from kombu import serialization
 from config.server_conf import current_environment
 
 from celery_task.celery_config import dev_conf
@@ -40,14 +35,14 @@ def make_celery_app(mode):
 
 
 celery_app = make_celery_app(current_environment)
-# after_setup_task_logger.connect(logger)
+# # 设置日志
+# after_setup_task_logger.connect(foo_tasks_setup_logging)
 
 # conf = dev_conf[current_environment]
 # celery_app = Celery(__name__, broker=conf.CELERY_BROKER_URL, backend=conf.CELERY_RESULT_BACKEND)
 # celery_app = Celery(__name__)
 # celery_app.conf.update(conf)
 # celery_app.config_from_object(conf)
-
 
 # from celery.schedules import crontab
 # from celery.schedules import timedelta
@@ -61,7 +56,6 @@ celery_app = make_celery_app(current_environment)
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../app')))
 # _set_current_app(celery_app)
 # celery_app.autodiscover_tasks("business_layer.extract_business_layer_task")
-
 
 # def make_celery():
 #

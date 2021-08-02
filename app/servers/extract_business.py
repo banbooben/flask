@@ -14,7 +14,7 @@ import shutil
 import json
 import re
 import time
-from lxml import etree
+# from lxml import etree
 
 from initialization.error_process import ExtractException
 from common.common_functions import (format_result_to_logger_str,

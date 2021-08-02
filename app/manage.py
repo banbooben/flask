@@ -4,7 +4,6 @@
 # @Name    : manage.py
 # @Desc    :
 
-
 from flask_script import Manager
 
 from flask_migrate import MigrateCommand
@@ -15,10 +14,8 @@ from config.extensions_conf import HTTP_HOST, HTTP_PORT
 from initialization.application import logger
 from initialization.error_process import ExtractException
 
-# app, celery = init_app(current_environment)
-# app = init_app(current_environment)
 app = init_app()
-# app.app_context().push()
+
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 

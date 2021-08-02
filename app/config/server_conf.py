@@ -189,7 +189,7 @@ class LocalConfig(Config):
     }
 
     # 日志等级设置
-    LOG_LEVEL = "test"
+    LOG_LEVEL = "console"
 
     # # 路由白名单
     # URL_WHITE_LIST = {
@@ -205,5 +205,5 @@ config = {
 }
 
 # global current_config
-current_environment = os.getenv("ENVIRONMENT", "base")
+current_environment = os.getenv("ENVIRONMENT", "default")
 current_config = config.get(current_environment)
