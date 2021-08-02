@@ -8,23 +8,6 @@ from local_logger import logger
 
 
 class RabbitBase(object):
-    '''
-    def __init__(self, config, logger_item):
-        self.current_config = config
-        self.logger = logger_item
-        self._connection = None
-        self._channel = None
-
-        self.v_host = self.current_config.v_host  # 虚拟网络
-        self.username = self.current_config.username or ""  # 用户名
-        self.password = self.current_config.password or ""  # 密码
-        self.host = self.current_config.host or ""  # 主机
-        self.port = self.current_config.port or ""  # 端口
-        self.ack = self.current_config.ack or True  # 是否开启消息手动确认机制, 默认是自动确认机制
-        self.persist = self.current_config.persist or True  # 消息是否持久化
-        self.exchange = self.current_config.exchange or ""  # 交换机名称
-        self.exchange_type = self.current_config.exchange_type or ""  # 交换机类型
-    '''
 
     def __init__(self,
                  username="guest",
@@ -87,24 +70,6 @@ class RabbitBase(object):
             logger.exception(e)
             raise e
 
-    # def connect_by(self):
-    #     # 连接mq
-    #     if self._username and self._password:
-    #         credentials = pika.PlainCredentials(username=self._username,
-    #                                             password=self._password)
-    #     else:
-    #         credentials = None
-    #     parameters = pika.ConnectionParameters(
-    #         host=self._host, port=self._port, credentials=credentials
-    #     ) if credentials else pika.ConnectionParameters(host=self._host,
-    #                                                     port=self._port)
-    #     try:
-    #         connection = pika.BlockingConnection(parameters=parameters)
-    #         channel = connection.channel()
-    #         self._connection, self._channel = connection, channel
-    #     except Exception as e:
-    #         self.logger.exception(e)
-    #         raise e
     def _get_delivery_mode(self):
         # delivery_mode为2时表示消息持久化, 其他值时非持久化
         delivery_mode = (2 if self._persist else 0)
@@ -140,7 +105,7 @@ class RabbitBase(object):
             logger.exception(e)
             raise e
 
-    def create_exchange(self, exchange_name, exchange_type=""):
+    def create_exchange(self, exchange_name, exchange_type="", **kwargs):
         """
         注册一个交换机
         Args:
@@ -151,7 +116,7 @@ class RabbitBase(object):
 
         """
         self._channel.exchange_declare(exchange=exchange_name,
-                                       exchange_type=exchange_type)
+                                       exchange_type=exchange_type, **kwargs)
 
     def create_queue(self, queue, **kwargs):
         # if "durable" not in kwargs:
@@ -193,9 +158,10 @@ class RabbitPublisher(RabbitBase):
 
         # 开启消息送达确认(注意这里是送达消息队列即可)
         self._channel.confirm_delivery()
+        # self._channel.syncronize()
 
         if exchange and exchange_type:
-            self.create_exchange(exchange, exchange_type)
+            self.create_exchange(exchange, exchange_type, durable=self._persist)
         else:
             self._channel.queue_declare(queue=queue_name, durable=self._persist)
             routing_key = queue_name
@@ -215,7 +181,7 @@ class RabbitConsumer(RabbitBase):
 
     def queue_bind(self, exchange="", exchange_type="", queue_name="", routing_key=""):
         assert isinstance(routing_key, list) or isinstance(routing_key, str), 'routing_key type error'
-        self.create_exchange(exchange_name=exchange, exchange_type=exchange_type)
+        self.create_exchange(exchange_name=exchange, exchange_type=exchange_type, durable=self._persist)
         self.create_queue(queue_name, durable=self._persist)
         if isinstance(routing_key, str):
             routing_key = [routing_key]
