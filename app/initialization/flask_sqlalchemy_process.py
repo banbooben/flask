@@ -1,16 +1,5 @@
-"""
-Created on 2020年2月7日
-
-@author: jianzhihua
-"""
-
-# from flask_migrate import Migrate
-# from flask_sqlalchemy import SQLAlchemy
-#
-
-# from configs import sysconf
-# from . import app
-# from config.server_conf import current_config
+#! /usr/bin/env python
+# -*- coding:utf-8 -*-
 
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
