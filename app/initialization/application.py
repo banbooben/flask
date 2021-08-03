@@ -8,7 +8,6 @@
 # @desc    :
 
 # 庆全版本logger
-from initialization.logger_process import logger
 
 # 书洋版本logger
 # from initialization.logger_process_sy import logger

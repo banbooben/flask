@@ -10,21 +10,27 @@ Created on 2020年2月7日
 
 # from configs import sysconf
 # from . import app
-from config.server_conf import current_config
+# from config.server_conf import current_config
+
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
+
+# # 创建数据库管理对象db
+db = SQLAlchemy()
+migrate = Migrate(db=db)
 
 
 def init_db(app):
+    # 自己更改配置使用，直接写在配置文件中时不需要调用此方法
     # from config.server_conf import current_config
-    app.logger.info("MYSQL_CONNECT_URL: " + current_config.SQLALCHEMY_DATABASE_URI)
-    app.config["SQLALCHEMY_DATABASE_URI"] = current_config.SQLALCHEMY_DATABASE_URI
-    app.config["SQLALCHEMY_BINDS"] = dict(db=current_config.SQLALCHEMY_DATABASE_URI)
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-    # app.config["SQLALCHEMY_COMMIT_ON_TEARDOWN"] = True
+    # app.logger.info("MYSQL_CONNECT_URL: " + current_config.SQLALCHEMY_DATABASE_URI)
+    # app.config["SQLALCHEMY_DATABASE_URI"] = current_config.SQLALCHEMY_DATABASE_URI
+    # app.config["SQLALCHEMY_BINDS"] = dict(db=current_config.SQLALCHEMY_DATABASE_URI)
+    # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+    # # app.config["SQLALCHEMY_COMMIT_ON_TEARDOWN"] = True
+    #
+    # # if current_config.USE_DB_POOL:
+    # #     app.config["SQLALCHEMY_ENGINE_OPTIONS"] = current_config.SQLALCHEMY_ENGINE_OPTIONS
 
-    # if current_config.USE_DB_POOL:
-    #     app.config["SQLALCHEMY_ENGINE_OPTIONS"] = current_config.SQLALCHEMY_ENGINE_OPTIONS
-
-    # db = SQLAlchemy()
-    # db.init_app(app)
-    # session = db.session
-    # migrate = Migrate(app, db, compare_type=True, compare_server_default=True)
+    db.init_app(app)
+    migrate.init_app(app)

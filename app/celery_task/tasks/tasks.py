@@ -8,7 +8,7 @@
 # @desc    :
 
 from celery_task.celery_process import celery_app
-from initialization.logger_process import logger
+from tools.logger_process import logger
 
 
 @celery_app.task

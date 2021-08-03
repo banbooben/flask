@@ -16,6 +16,7 @@ import multiprocessing
 class BaseConfig(object):
     # app基础配置
     # 密钥
+    PROJECT_NAME = "flask_app"
     SECRET_KEY = b'aliksuydgi/ekjh$gawel;isvnurio'
 
     # 服务运行端口绑定
@@ -29,7 +30,7 @@ class BaseConfig(object):
 
     # 日志配置存储位置
     LOG_DIR = (Path.cwd() / 'logs').as_posix()
-    LOG_LEVEL = "default"
+    LOG_LEVEL = "info"
 
     # 上传文件存储位置
     UPLOAD_PATH = (Path.cwd() / 'static/upload').as_posix()
@@ -104,7 +105,6 @@ class Config(BaseConfig):
     }
 
 
-
 # 生产环境配置
 class ProductConfig(Config):
     DATABASES_USER = os.getenv('MYSQL_PASSWORD', 'root')
@@ -132,7 +132,7 @@ class ProductConfig(Config):
         "DECODE_RESPONSES": os.getenv('DECODE_RESPONSES', True),
     }
 
-    LOG_LEVEL = "product"
+    LOG_LEVEL = "info"
 
     # # 路由白名单
     # URL_WHITE_LIST = {
@@ -168,7 +168,7 @@ class TestConfig(Config):
     }
 
     # 日志等级设置
-    LOG_LEVEL = "test"
+    LOG_LEVEL = "info"
 
     # # 路由白名单
     # URL_WHITE_LIST = {
@@ -189,12 +189,7 @@ class LocalConfig(Config):
     }
 
     # 日志等级设置
-    LOG_LEVEL = "console"
-
-    # # 路由白名单
-    # URL_WHITE_LIST = {
-    #     '/': ['GET'],
-    # }
+    LOG_LEVEL = "debug"
 
 
 config = {

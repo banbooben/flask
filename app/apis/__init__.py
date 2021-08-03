@@ -10,7 +10,7 @@ from flask_restful import Api as _Api
 
 from initialization.error_process import register_blueprint_error
 from initialization.request_process import init_bp_hook_function
-from initialization.logger_process_class import logger
+from tools.logger_process_class import logger
 
 import os
 

@@ -18,9 +18,8 @@ from initialization.request_process import init_hook_function, Request
 
 
 def init_app():
-
     # 初始化app
-    flask_app = Flask(__name__,
+    flask_app = Flask(current_config.PROJECT_NAME,
                       template_folder=current_config.TEMPLATE_FOLDER,
                       static_folder=current_config.STATIC_FOLDER,
                       static_url_path=current_config.STATIC_URL_PATH)

@@ -9,7 +9,7 @@
 
 import pymysql.cursors
 from common.decorators import singleton, Decorator
-from initialization.logger_process import logger
+from tools.logger_process import logger
 
 
 @singleton

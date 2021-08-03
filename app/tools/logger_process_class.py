@@ -196,7 +196,7 @@ class Logging(object):
         config.dictConfig(self.log_config)
 
     @classmethod
-    def get_logger(cls, logger_name,
+    def get_logger(cls, logger_name="console",
                    log_file_path='debug.log',
                    logger_level="debug",
                    formatter="standard",

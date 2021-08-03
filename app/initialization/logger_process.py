@@ -1,161 +1,57 @@
-# !/usr/bin/env python
-# coding:utf-8
-# @Time    : 2020/12/26 11:38 下午
-# @Name    : logger_process.py
-# @Desc    :
+"""
+Created on 2019年1月14日
+@author: ljbai
 
+comment by LuShuYang:
+    Flask的log分为两个部分, 一个是在业务代码里面使用的app.logger, 一个是werkzueg的logger,
+
+    在本地的时候我们将werkzueg的logger和app.logger重定向到标注输出中,
+
+    如果在部署的时候, 使用gunicorn部署, 再将gunicorn的logger和app的logger都重定向到File中.
+
+    因此不修改werkzeug的logger, 且不要使用werkzueg进行部署.
+"""
 import logging
-
 from logging import config
-from pathlib import Path
+import os
 
-from flask_log_request_id import RequestIDLogFilter
-from config.server_conf import current_config
+# from configs.base import PROJECT_NAME
+# from configs.sysconf import LOG_LEVEL
+from config.server_conf import current_environment, current_config
 
+LOG_FILE_PATH = os.path.join(current_config.LOG_DIR, "root.log")
+LOG_LEVEL = current_config.LOG_LEVEL
 
-ROOT_LOG = current_config.LOG_DIR + '/root.log'
-ERROR_LOG = current_config.LOG_DIR + '/error.log'
-CELERY_LOG = current_config.LOG_DIR + '/celery.log'
-Path(current_config.LOG_DIR).mkdir(exist_ok=True)
+logger = logging.getLogger(current_config.PROJECT_NAME)  # same as app.logger
+logger.setLevel(LOG_LEVEL)
 
-LOG_CONF = {
-    'version': 1,
-    'incremental': False,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'standard': {
-            'format': ('%(asctime)s - %(request_id)s - %(levelname)s - %(filename)s:%(lineno)s'
-                       ' - [%(funcName)s]:  %(message)s'),
-        }
-    },
-    'filters': {
-        'req_id_filter': {
-            '()': RequestIDLogFilter        # 获取请求中的 request_id
-        }
-    },
-    'handlers': {
-        'default': {
-
-            # # 日期格式的日志
-            # "class": "logging.handlers.TimedRotatingFileHandler",
-            # "backupCount": 10,
-            # "when": "d",
-            # "filename": ROOT_LOG,
-
-            # 文件格式的日志
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': ROOT_LOG,  # 日志输出文件位置
-            'backupCount': 5,  # 备份份数
-            'maxBytes': 1024 * 1024 * 20,  # 文件大小
-
-            'level': logging.DEBUG,
-            'formatter': 'standard',
-            'encoding': 'utf-8',
-            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
-        },
-        'error': {
-
-            # 文件格式的日志
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': ROOT_LOG,  # 日志输出文件位置
-            'backupCount': 5,  # 备份份数
-            'maxBytes': 1024 * 1024 * 20,  # 文件大小
-
-            'level': logging.ERROR,
-            'formatter': 'standard',
-            'encoding': 'utf-8',
-            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
-        },
-        'info': {
-
-            # 文件格式的日志
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': ROOT_LOG,  # 日志输出文件位置
-            'backupCount': 5,  # 备份份数
-            'maxBytes': 1024 * 1024 * 20,  # 文件大小
+formatter = logging.Formatter('%(asctime)s - %(request_id)s - %(levelname)s - %(filename)s:%(lineno)s'
+                              ' - [%(funcName)s]:  %(message)s')
 
 
-            'level': logging.INFO,
-            'formatter': 'standard',
-            'encoding': 'utf-8',
-            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
-        },
-        'debug': {
+class RequestIdLogRecord(logging.LogRecord):
 
-            # 文件格式的日志
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': ROOT_LOG,  # 日志输出文件位置
-            'backupCount': 5,  # 备份份数
-            'maxBytes': 1024 * 1024 * 20,  # 文件大小
-
-            'level': logging.DEBUG,
-            'formatter': 'standard',
-            'encoding': 'utf-8',
-            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
-        },
-        'celery': {
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from flask import request
+        try:
+            self.request_id = request.request_id
+        except:
+            self.request_id = "null"
 
 
-            # 文件格式的日志
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': CELERY_LOG,  # 日志输出文件位置
-            'backupCount': 5,  # 备份份数
-            'maxBytes': 1024 * 1024 * 20,  # 文件大小
+logging.setLogRecordFactory(RequestIdLogRecord)
 
-            'level': logging.DEBUG,
-            'formatter': 'standard',
-            'encoding': 'utf-8',
-            'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
-        },
-        'stream_info': {
-            'class': 'logging.StreamHandler',
-            'level': logging.INFO,
-            'formatter': 'standard',
-            'filters': ['req_id_filter']
-        }
-    },
-    'loggers': {
-        'default': {
-            'level': "DEBUG",
-            'propagate': 0,
-            'handlers': ['debug', "stream_info"]
-        },
-        "product": {
-            "level": "INFO",
-            "handlers": ["info"],
-            "propagate": 0,
-            "qualname": "product"
-        },
-        "test": {
-            "level": "DEBUG",
-            "handlers": ["debug"],
-            "propagate": 0,
-            "qualname": "test"
-        },
-        "celery": {
-            "level": "INFO",
-            "handlers": ["celery"],
-            "propagate": 0,
-            "qualname": "celery"
-        }
-    },
-    'root': {
-        'level': logging.INFO,
-        "propagate": 0,
-        'handlers': ['info']
-    },
-}
+# # 日志输出到文件
+# logger.handlers.append(logging.FileHandler(LOG_FILE_PATH, encoding='UTF-8'))
 
-config.dictConfig(LOG_CONF)
+# 日志输出到终端
+logger.handlers.append(logging.StreamHandler())
 
+for handler in logger.handlers:
+    handler.setFormatter(formatter)
+    # handler.formatter = formatter
+    # logger.addHandler(handler)
 
-def get_logger(logger_name):
-    if logger_name not in LOG_CONF.get("loggers", {}).keys():
-        logger_name = "default"
-    logger = logging.getLogger(logger_name)
-    return logger
-
-
-logger = get_logger(current_config.LOG_LEVEL)
-
-__all__ = ['logger']
+if __name__ == '__main__':
+    ...
