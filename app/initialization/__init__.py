@@ -12,7 +12,7 @@ from apis import register_resource_and_blueprint
 from config.server_conf import current_config
 
 from initialization.extensions import config_extensions
-from initialization.application import logger
+from initialization.logger_process import logger
 from initialization.error_process import init_error
 from initialization.request_process import init_hook_function, Request
 

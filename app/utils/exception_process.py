@@ -7,7 +7,7 @@
 # @File    : exception_process.py
 # @desc    :
 
-from initialization.application import logger
+from initialization.logger_process import logger
 import json
 
 

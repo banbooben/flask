@@ -9,12 +9,13 @@
 
 from common.decorators import Decorator
 from initialization.resource_process import BaseResource
+from initialization.logger_process import logger
 
 
 class TestResource(BaseResource):
 
     def get(self):
-
+        logger.debug("test")
         return self.response(code=200, message="请求成功")
 
 

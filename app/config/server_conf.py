@@ -189,7 +189,7 @@ class LocalConfig(Config):
     }
 
     # 日志等级设置
-    LOG_LEVEL = "debug"
+    LOG_LEVEL = "DEBUG"
 
 
 config = {
