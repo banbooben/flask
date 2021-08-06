@@ -9,8 +9,8 @@ from config.server_conf import current_environment
 
 from celery_task.celery_config import dev_conf
 
-# from celery.signals import after_setup_task_logger
-# import logging
+from celery.signals import after_setup_task_logger
+import logging
 
 
 def make_celery_app(mode):
@@ -18,25 +18,23 @@ def make_celery_app(mode):
     app = Celery(conf.NAME, broker=conf.CELERY_BROKER_URL, backend=conf.RESULT_BACKEND)
 
     app.config_from_object(conf)
-    # app.conf.update(conf)
-    # app.logger = config.logger
     app.autodiscover_tasks()
     return app
 
 
-# def foo_tasks_setup_logging(**kw):
-#     logger = logging.getLogger('foo.tasks')
-#     if not logger.handlers:
-#         handler = logging.FileHandler('tasks.log')
-#         formatter = logging.Formatter(logging.BASIC_FORMAT)  # you may want to customize this.
-#         handler.setFormatter(formatter)
-#         logger.addHandler(handler)
-#         logger.propagate = False
+def foo_tasks_setup_logging(**kw):
+    logger = logging.getLogger('foo.tasks')
+    if not logger.handlers:
+        handler = logging.FileHandler('tasks.log')
+        formatter = logging.Formatter(logging.BASIC_FORMAT)  # you may want to customize this.
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        logger.propagate = False
 
 
 celery_app = make_celery_app(current_environment)
-# # 设置日志
-# after_setup_task_logger.connect(foo_tasks_setup_logging)
+# 设置日志
+after_setup_task_logger.connect(foo_tasks_setup_logging)
 
 # conf = dev_conf[current_environment]
 # celery_app = Celery(__name__, broker=conf.CELERY_BROKER_URL, backend=conf.CELERY_RESULT_BACKEND)

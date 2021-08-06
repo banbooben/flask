@@ -7,5 +7,6 @@
 ###
 
 printf "\n================ Start build lnpy39:slim image ================\n\n"
-docker build -f Dockerfile.base -t lnpy39:slim .
+docker build -f Dockerfile.base -t sarmn/python:3.9.6-slim .
 echo "ok"
+docker push sarmn/python:3.9.6-slim

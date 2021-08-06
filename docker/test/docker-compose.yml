@@ -1,14 +1,16 @@
 version: "3"
 services:
-  lnpy37:
-    image: sarmn/python_dev:3.10.0b4-slim
+  flaskr:
+    image: flaskr:release_20210805133651
+#    command: service nginx start &&
     environment:
-      WORK_NUMS: 2
+      ENVIRONMENT: "default"
     ports:
-#      - 8000:8000
-      - 222:22
-      - 8081:80
-#    volumes:
+      - 8000:8000
+#      - 222:22
+#      - 8081:80
+    volumes:
+      - ../../app:/flaskr/app
 #      - ./error.log:/var/log/nginx.err
 #      - ./nginx.log:/var/log/nginx.log
 #      - ../../deploy/flask_supervisor_config.conf:/etc/supervisor/conf.d/flask_supervisor_config.conf

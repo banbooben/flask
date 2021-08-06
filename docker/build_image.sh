@@ -12,11 +12,13 @@ docker_app="flaskr"
 mkdir ./${docker_app}
 cp -R ../app ./${docker_app}
 cp -R ../deploy ./${docker_app}
+cp ../Pipfile* ./${docker_app}
 #cp ./requirements.txt ./${docker_app}/requirements.txt
 #cp ./default ./${docker_app}/default
 #cp ./init_database.sh ./${docker_app}/init_databases.sh
 #cp -R ../crawler/ ./${docker_app}/
-# cd ./${docker_app}/flaskr && rm -f ./logs/* && cd ..
+# cd ./${docker_app}/flaskr && rm
+# -f ./logs/* && cd ..
 echo "build"
 docker build -f Dockerfile -t flaskr:"release_${time}" .
 

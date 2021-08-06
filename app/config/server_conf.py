@@ -200,5 +200,5 @@ config = {
 }
 
 # global current_config
-current_environment = os.getenv("ENVIRONMENT", "default")
+current_environment = os.getenv("ENV", "default")
 current_config = config.get(current_environment)

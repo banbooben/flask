@@ -1,11 +1,11 @@
-FROM python:3.10.0b4-slim
+# FROM python:3.10.0b4-slim
+FROM python:3.9.6-slim
 
 RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf \
     && cd / && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN apt-get update -y
 
-# install sshd
 RUN apt-get install -y nginx wget vim curl gcc passwd openssl openssh-server net-tools \
     && mkdir -p /var/run/sshd \
     && mkdir -p /root/.ssh \
@@ -21,4 +21,3 @@ ENV LANG=zh_CN.UTF-8 \
     PYTHONIOENCODING=utf-8
 
 CMD /usr/sbin/sshd -D
-# CMD nginx -g "daemon off;
