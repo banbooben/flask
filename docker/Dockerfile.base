@@ -1,4 +1,4 @@
-FROM  python:3.9.4-slim
+FROM  python:3.9.6-slim
 
 #RUN yum update -y
 RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf \
