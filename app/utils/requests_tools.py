@@ -67,3 +67,6 @@ class RequestTools(object):
             response_str = "{}"
         res = json.loads(response_str)
         return res
+
+
+request_tools_ = RequestTools()

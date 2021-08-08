@@ -17,9 +17,16 @@ import time
 # from lxml import etree
 
 from initialization.error_process import ExtractException
-from common.common_functions import (format_result_to_logger_str,
-                                     common_request_to_json as common_request)
+from initialization.application import logger
+from utils.requests_tools import request_tools_
 
 
 class ExtractApiBusiness(object):
+
+    def get_business(self):
+        i = 0
+        while i < 20:
+            logger.info("celery test info")
+            i += 1
+
     ...
