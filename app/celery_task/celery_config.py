@@ -17,6 +17,7 @@ class CeleryConfigBase(object):
     NAME = "celery_test"
     redis_config = get_redis_config(current_config.REDIS_CONF)
 
+    CELERY_LOG_FILE = current_config.LOG_DIR + "/celery.log"
     # CELERY_ENABLE_UTC = True  # 启用UTC时区
     # CELERY_TIMEZONE = 'Asia/Shanghai'  # 上海时区
     # CELERYD_HIJACK_ROOT_LOGGER = False  # 拦截根日志配置

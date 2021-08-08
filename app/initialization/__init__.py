@@ -6,13 +6,12 @@
 
 from flask import Flask
 from flask_cors import CORS
-from flask_log_request_id import RequestID
 
 from apis import register_resource_and_blueprint
 from config.server_conf import current_config
 
 from initialization.extensions import config_extensions
-from initialization.logger_process import logger
+from initialization.application import logger
 from initialization.error_process import init_error
 from initialization.request_process import init_hook_function, Request
 
@@ -26,6 +25,8 @@ def init_app():
 
     # 配置基类
     flask_app.config.from_object(current_config)
+
+    flask_app.logger = logger
 
     # 设置跨域
     flask_app.config["JSON_AS_ASCII"] = False
@@ -46,7 +47,7 @@ def init_app():
     # 配置扩展
     config_extensions(flask_app)
 
-    # 注册获取请求ID，供日志使用
-    RequestID(flask_app)
+    # # 注册获取请求ID，供日志使用
+    # RequestID(flask_app)
 
     return flask_app

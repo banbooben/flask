@@ -7,9 +7,7 @@
 # @File    : application.py
 # @desc    :
 
-# 庆全版本logger
 
-# 书洋版本logger
-# from initialization.logger_process import logger
+from initialization.logger_process import logger
 
 

@@ -37,6 +37,7 @@ def init_hook_function(app):
         """
         app.logger.info(request.request_id)
         app.logger.info(request.params)
+        ...
 
 
 def init_bp_hook_function(bp):
@@ -45,5 +46,6 @@ def init_bp_hook_function(bp):
         """
         打印入参
         """
-        bp.logger.info(request.request_id)
-        bp.logger.info(request.params)
+        # bp.logger.info(request.request_id)
+        # bp.logger.info(request.params)
+        ...

@@ -1,57 +1,59 @@
-"""
-Created on 2019年1月14日
-@author: ljbai
+# !/usr/bin/env python
+# coding:utf-8
+# @Time    : 2020/12/26 11:38 下午
+# @Name    : logger_process.py
+# @Desc    :
 
-comment by LuShuYang:
-    Flask的log分为两个部分, 一个是在业务代码里面使用的app.logger, 一个是werkzueg的logger,
+from loguru import logger
 
-    在本地的时候我们将werkzueg的logger和app.logger重定向到标注输出中,
+from pathlib import Path
+from sys import stdout
 
-    如果在部署的时候, 使用gunicorn部署, 再将gunicorn的logger和app的logger都重定向到File中.
+from config.server_conf import current_config, current_environment
 
-    因此不修改werkzeug的logger, 且不要使用werkzueg进行部署.
-"""
-import logging
-from logging import config
-import os
-
-# from configs.base import PROJECT_NAME
-# from configs.sysconf import LOG_LEVEL
-from config.server_conf import current_environment, current_config
-
-LOG_FILE_PATH = os.path.join(current_config.LOG_DIR, "root.log")
-LOG_LEVEL = current_config.LOG_LEVEL
-
-logger = logging.getLogger(current_config.PROJECT_NAME)  # same as app.logger
-logger.setLevel(LOG_LEVEL)
-
-formatter = logging.Formatter('%(asctime)s - %(request_id)s - %(levelname)s - %(filename)s:%(lineno)s'
-                              ' - [%(funcName)s]:  %(message)s')
+root_file = current_config.LOG_DIR + '/root.log'
+Path(current_config.LOG_DIR).mkdir(exist_ok=True)
 
 
-class RequestIdLogRecord(logging.LogRecord):
+def my_filter(log_record):
+    from flask import request
+    try:
+        log_record["request_id"] = request.request_id
+    except:
+        log_record["request_id"] = "null"
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        from flask import request
-        try:
-            self.request_id = request.request_id
-        except:
-            self.request_id = "null"
+    return log_record
 
 
-logging.setLogRecordFactory(RequestIdLogRecord)
+local_config = {
+    "file_handler": {"sink": root_file,
+                     "level": current_config.LOG_LEVEL,
+                     # "serialize": True,
+                     "format": '<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green>'
+                               ' - <green>{request_id}</green>'
+                               ' - <level>{level: <8}</level>'
+                               ' - <cyan>{name}</cyan>:<cyan>{line}</cyan>'
+                               ' - [<cyan>{function}</cyan>]:  <level>{message}</level>',
+                     "filter": my_filter,
+                     "enqueue": True},
+    "stream": {"sink": stdout,
+               "level": current_config.LOG_LEVEL,
+               "format": '<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green>'
+                         ' - <green>{request_id}</green>'
+                         ' - <level>{level: <8}</level>'
+                         ' - <cyan>{name}</cyan>:<cyan>{line}</cyan>'
+                         ' - [<cyan>{function}</cyan>]:  <level>{message}</level>',
+               "filter": my_filter,
+               },
+}
 
-# # 日志输出到文件
-# logger.handlers.append(logging.FileHandler(LOG_FILE_PATH, encoding='UTF-8'))
 
-# 日志输出到终端
-logger.handlers.append(logging.StreamHandler())
+handlers = []
 
-for handler in logger.handlers:
-    handler.setFormatter(formatter)
-    # handler.formatter = formatter
-    # logger.addHandler(handler)
+if current_environment not in ["default", "base"]:
+    handlers.append(local_config["file_handler"])
+else:
+    handlers.append(local_config["stream"])
 
-if __name__ == '__main__':
-    ...
+
+logger.configure(**{"handlers": handlers})

@@ -7,19 +7,6 @@
 # @Desc    :
 
 
-from config.server_conf import current_config
-from common.common_conf import get_redis_config
-
-from utils.redis_tools import Redis
-#
-# from flask_migrate import Migrate
-# from flask_sqlalchemy import SQLAlchemy
-# # # 创建数据库管理对象db
-# db = SQLAlchemy()
-# migrate = Migrate(db=db)
-# cache = Redis(get_redis_config(current_config.REDIS_CONF))
-
-
 # 初始化
 def config_extensions(app):
     """
@@ -33,6 +20,4 @@ def config_extensions(app):
     # from initialization.jwtextend_process import JWTProcess
     # JWTProcess(app).init_jwt_decorator()
 
-    # db.init_app(app)
-    # migrate.init_app(app)
     ...

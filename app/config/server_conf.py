@@ -190,6 +190,7 @@ class LocalConfig(Config):
 
     # 日志等级设置
     LOG_LEVEL = "DEBUG"
+    LOG_NAME = "test"
 
 
 config = {
@@ -200,5 +201,5 @@ config = {
 }
 
 # global current_config
-current_environment = os.getenv("ENVIRONMENT", "default")
+current_environment = os.getenv("ENV", "default")
 current_config = config.get(current_environment)

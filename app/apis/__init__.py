@@ -10,7 +10,7 @@ from flask_restful import Api as _Api
 
 from initialization.error_process import register_blueprint_error
 from initialization.request_process import init_bp_hook_function
-from tools.logger_process_class import logger
+from initialization.application import logger
 
 import os
 
@@ -22,11 +22,9 @@ def load_all_resource_and_blueprint():
     default_dirs = "apis"
     for root, dirs, files in os.walk(default_dirs):
         for _dir in dirs:
-            if root in ["apis"]:
-                break
-            elif _dir in ["__pycache__"]:
+            if _dir in ["__pycache__"]:
                 continue
-            abs_file_path = os.path.join(root, _dir)
+            abs_file_path = root + "/" + _dir
             module = importlib.import_module(abs_file_path.replace("/", "."))
             importlib.reload(module)
             try:

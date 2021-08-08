@@ -11,7 +11,7 @@ from flask import jsonify
 from initialization import init_app
 from config.extensions_conf import HTTP_HOST, HTTP_PORT
 
-from initialization.logger_process import logger
+from initialization.application import logger
 from initialization.error_process import ExtractException
 
 app = init_app()

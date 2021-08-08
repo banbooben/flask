@@ -9,7 +9,7 @@
 import threading
 import time
 from functools import wraps
-from tools.logger_process import logger
+from initialization.application import logger
 
 
 # from .common_func import serialize, deserialization

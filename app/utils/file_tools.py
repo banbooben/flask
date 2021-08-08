@@ -2,7 +2,7 @@ import json
 import os
 from pathlib import Path
 
-from initialization.logger_process import logger
+from initialization.application import logger
 
 
 class FileTools(object):

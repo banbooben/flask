@@ -10,16 +10,17 @@ from logging import config
 from pathlib import Path
 
 from flask_log_request_id import RequestIDLogFilter
-from config.server_conf import current_config
+# from config.server_conf import current_config
 
 
 class Logging(object):
-    def __init__(self, log_file_dir=None):
+    def __init__(self,
+                 log_file_dir="."):
         """
         need pip install Flask-Log-Request-ID、concurrent-log-handler
         :param log_file_dir:
         """
-        self.log_file_dir = log_file_dir or current_config.LOG_DIR
+        self.log_file_dir = log_file_dir
         self.log_config = {}
         self.loggers = []
 
@@ -99,7 +100,6 @@ class Logging(object):
 
     def _set_default_log_conf(self):
         root_log_file = self.log_file_dir + '/root.log'
-        ERROR_LOG = self.log_file_dir + '/error.log'
         Path(self.log_file_dir).mkdir(exist_ok=True)
 
         self.log_config = {
@@ -124,7 +124,7 @@ class Logging(object):
                     'formatter': 'standard',
                     'filters': ['req_id_filter']
                 },
-                'error': {
+                'file': {
 
                     # 文件格式的日志
                     'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
@@ -136,43 +136,13 @@ class Logging(object):
                     'encoding': 'utf-8',
                     'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
                 },
-                'info': {
-
-                    # 文件格式的日志
-                    'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-                    'filename': root_log_file,  # 日志输出文件位置
-                    'backupCount': 5,  # 备份份数
-                    'maxBytes': 1024 * 1024 * 20,  # 文件大小
-                    'level': logging.INFO,
-                    'formatter': 'standard',
-                    'encoding': 'utf-8',
-                    'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
-                },
-                'debug': {
-
-                    # 文件格式的日志
-                    'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-                    'filename': root_log_file,  # 日志输出文件位置
-                    'backupCount': 5,  # 备份份数
-                    'maxBytes': 1024 * 1024 * 20,  # 文件大小
-                    'level': logging.DEBUG,
-                    'formatter': 'standard',
-                    'encoding': 'utf-8',
-                    'filters': ['req_id_filter'],  # 使用哪种formatters日志格式
-                },
             },
             'loggers': {
-                "product": {
+                "local": {
                     "level": "INFO",
-                    "handlers": ["info"],
+                    "handlers": ["file"],
                     "propagate": 0,
-                    "qualname": "product"
-                },
-                "test": {
-                    "level": "DEBUG",
-                    "handlers": ["debug"],
-                    "propagate": 0,
-                    "qualname": "test"
+                    "qualname": "local"
                 },
                 "console": {
                     "level": "INFO",
@@ -225,39 +195,7 @@ class Logging(object):
         return logging.getLogger(logger_name)
 
 
-# def get_logger(logger_name,
-#                log_file_path='debug.log',
-#                logger_level="debug",
-#                formatter="standard",
-#                filters=None,
-#                backup_count=5,
-#                max_bytes=1024 * 1024 * 20,
-#                save_file=True,
-#                console=True,
-#                use_concurrent_log_handler=True,
-#                when="d",):
-#     logger_item = Logging()
-#     kwargs = {
-#         "log_file_path": log_file_path,
-#         "logger_level": logger_level,
-#         "formatter": formatter,
-#         "filters": filters,
-#         "backup_count": backup_count,
-#         "max_bytes": max_bytes,
-#         "save_file": save_file,
-#         "console": console,
-#         "use_concurrent_log_handler": use_concurrent_log_handler,
-#         "when": when
-#     }
-#     if logger_name not in logger_item.loggers:
-#         logger_item.add_handler(handler_name=logger_name, **kwargs)
-#     return logging.getLogger(logger_name)
-
-logger = Logging.get_logger(current_config.LOG_LEVEL)
-
-__all__ = ['logger']
-#
-# if __name__ == '__main__':
-#     logger = get_logger("consoles")
-#     logger.info("test")
-#     logger.debug("debug")
+if __name__ == '__main__':
+    logger = Logging.get_logger("consoles")
+    logger.info("test")
+    logger.debug("debug")

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0a7be1e52fa7412d11fdccb6b1be5722bfcdfd7f32b4a9d1ec77598c1685a8cd"
+            "sha256": "be5e4fdf01c54ddf7ac1487440c55486c4bcc8d816ebfa4f63f76bc4ab04e3e8"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -114,6 +114,14 @@
             "index": "pypi",
             "version": "==3.21.1.post1"
         },
+        "colorama": {
+            "hashes": [
+                "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b",
+                "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"
+            ],
+            "markers": "sys_platform == 'win32'",
+            "version": "==0.4.4"
+        },
         "concurrent-log-handler": {
             "hashes": [
                 "sha256:00d5ca24d463a7013c3479b026f34b76da4b50df8d76194132b8d8403c014379",
@@ -224,6 +232,14 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==5.1.0"
+        },
+        "loguru": {
+            "hashes": [
+                "sha256:b28e72ac7a98be3d28ad28570299a393dfcd32e5e3f6a353dec94675767b6319",
+                "sha256:f8087ac396b5ee5f67c963b495d615ebbceac2796379599820e324419d53667c"
+            ],
+            "index": "pypi",
+            "version": "==0.5.3"
         },
         "lxml": {
             "hashes": [
@@ -660,6 +676,14 @@
             ],
             "index": "pypi",
             "version": "==1.0.1"
+        },
+        "win32-setctime": {
+            "hashes": [
+                "sha256:4e88556c32fdf47f64165a2180ba4552f8bb32c1103a2fafd05723a0bd42bd4b",
+                "sha256:dc925662de0a6eb987f0b01f599c01a8236cb8c62831c22d9cada09ad958243e"
+            ],
+            "markers": "sys_platform == 'win32'",
+            "version": "==1.0.3"
         }
     },
     "develop": {
