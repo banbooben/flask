@@ -30,7 +30,7 @@ class BaseConfig(object):
 
     # 日志配置存储位置
     LOG_DIR = (Path.cwd() / 'logs').as_posix()
-    LOG_LEVEL = "info"
+    LOG_LEVEL = "INFO"
 
     # 上传文件存储位置
     UPLOAD_PATH = (Path.cwd() / 'static/upload').as_posix()
@@ -125,14 +125,14 @@ class ProductConfig(Config):
     # 缓存
     REDIS_CONF = {
         "CACHE_TYPE": os.getenv('CACHE_TYPE', 'redis'),
-        "REDIS_HOST": os.getenv('REDIS_HOST', '127.0.0.1'),
-        "REDIS_PORT": os.getenv('REDIS_PORT', 6379),
+        "REDIS_HOST": os.getenv('REDIS_HOST', '100.100.20.147'),
+        "REDIS_PORT": os.getenv('REDIS_PORT', 63791),
         "REDIS_DB": os.getenv('REDIS_DB', 0),
-        "REDIS_PASSWORD": os.getenv('REDIS_PASSWORD', ''),
-        "DECODE_RESPONSES": os.getenv('DECODE_RESPONSES', True),
+        "REDIS_PASSWORD": os.getenv('REDIS_PASSWORD', '123456'),
+        "DECODE_RESPONSES": os.getenv('DECODE_RESPONSES', "True"),
     }
 
-    LOG_LEVEL = "info"
+    LOG_LEVEL = "INFO"
 
     # # 路由白名单
     # URL_WHITE_LIST = {
@@ -159,16 +159,16 @@ class TestConfig(Config):
 
     # 缓存
     REDIS_CONF = {
-        "CACHE_TYPE": 'redis',
-        "REDIS_HOST": '192.168.2.151',
-        "REDIS_PORT": 6379,
-        "REDIS_DB": 0,
-        "REDIS_PASSWORD": '123456',
-        "DECODE_RESPONSES": True,
+        "CACHE_TYPE": os.getenv('CACHE_TYPE', 'redis'),
+        "REDIS_HOST": os.getenv('REDIS_HOST', '100.100.20.147'),
+        "REDIS_PORT": os.getenv('REDIS_PORT', 63791),
+        "REDIS_DB": os.getenv('REDIS_DB', 0),
+        "REDIS_PASSWORD": os.getenv('REDIS_PASSWORD', '123456'),
+        "DECODE_RESPONSES": os.getenv('DECODE_RESPONSES', "True"),
     }
 
     # 日志等级设置
-    LOG_LEVEL = "info"
+    LOG_LEVEL = "INFO"
 
     # # 路由白名单
     # URL_WHITE_LIST = {
@@ -181,16 +181,15 @@ class LocalConfig(Config):
     # 缓存
     REDIS_CONF = {
         "CACHE_TYPE": os.getenv('CACHE_TYPE', 'redis'),
-        "REDIS_HOST": os.getenv('REDIS_HOST', '100.100.20.155'),
-        "REDIS_PORT": os.getenv('REDIS_PORT', 6379),
+        "REDIS_HOST": os.getenv('REDIS_HOST', '100.100.20.147'),
+        "REDIS_PORT": os.getenv('REDIS_PORT', 63791),
         "REDIS_DB": os.getenv('REDIS_DB', 0),
-        "REDIS_PASSWORD": os.getenv('REDIS_PASSWORD', ''),
+        "REDIS_PASSWORD": os.getenv('REDIS_PASSWORD', '123456'),
         "DECODE_RESPONSES": os.getenv('DECODE_RESPONSES', "True"),
     }
 
     # 日志等级设置
     LOG_LEVEL = "DEBUG"
-    LOG_NAME = "test"
 
 
 config = {

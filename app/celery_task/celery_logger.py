@@ -12,7 +12,7 @@ from celery_task.celery_config import dev_conf
 from config.server_conf import current_environment
 
 current_environment = current_environment if current_environment in dev_conf.keys() else "default"
-celery_config = dev_conf[current_environment].CELERY_LOG_FILE
+celery_config = dev_conf[current_environment]
 
 
 def my_filter(log_record):
