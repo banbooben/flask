@@ -7,6 +7,6 @@
 # @File    : __init__.py.py
 # @desc    :
 
-from .rabbit_factory import RabbitPublisher, RabbitConsumer, ConnectionFactory
+from extensions.rabbit.rabbit_factory import ConnectionFactory
 
 

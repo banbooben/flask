@@ -1,6 +1,6 @@
 from rabbit_factory import ConnectionFactory
 from rabbitmq import RabbitConsumer
-from local_logger import logger
+from initialization.application import logger
 import time
 
 
@@ -23,14 +23,16 @@ def create_and_connect_mq():
     # mq_item.get(exchange="logs", exchange_type="fanout",  queue_name="log:test:1")
 
     # # 路由模式
-    # mq_item.get(exchange="direct_logs", exchange_type="direct", queue_name="log:info", func=test)
+    # mq_item.get(exchange="direct_logs", exchange_type="direct",
+    #             queue_name="log:info", routing_key="log:info",
+    #             func=test)
 
     # Topic模式
     mq_item.get(exchange="com_list", exchange_type="topic",
-                queue_name="huage", routing_key=["data.#.shanghai.#",
-                                                 "data.#.suzhou.#"],
+                queue_name="all_data", routing_key="data.#",
                 func=test)
 
+    # 关闭
     mq_item.close()
 
 

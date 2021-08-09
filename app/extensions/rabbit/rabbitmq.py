@@ -4,7 +4,7 @@ import uuid
 
 import pika
 import time
-from local_logger import logger
+from initialization.application import logger
 
 
 class RabbitBase(object):
@@ -250,7 +250,13 @@ class RpcRabbitPublisher(RabbitPublisher):
             if correlation_id == props.correlation_id:
                 logger.info(f"调用成功！ {body.decode()}")
                 self.result = body.decode()
-                ch.basic_ack(delivery_tag=method.delivery_tag)
+                # ch.basic_ack(delivery_tag=method.delivery_tag)
+            else:
+                ch.basic_publish(exchange='',
+                                 routing_key=props.reply_to,
+                                 properties=pika.BasicProperties(correlation_id=props.correlation_id),
+                                 body=body)
+            ch.basic_ack(delivery_tag=method.delivery_tag)
 
         # 声明一个rpc任务的队列，不存在时创建
         self.create_queue(queue=queue_name, durable=self._persist)

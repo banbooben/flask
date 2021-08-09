@@ -1,6 +1,6 @@
 from rabbit_factory import ConnectionFactory
 from rabbitmq import RabbitConsumer
-from local_logger import logger
+from initialization.application import logger
 import time
 
 def test(channel, method, properties, body: bytes):

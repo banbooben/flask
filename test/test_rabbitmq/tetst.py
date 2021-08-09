@@ -2,7 +2,7 @@ import json
 import time
 import random
 
-from local_logger import logger
+from initialization.application import logger
 from rabbit_factory import ConnectionFactory
 from rabbitmq import RabbitPublisher, RpcRabbitPublisher
 
