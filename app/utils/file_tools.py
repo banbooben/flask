@@ -48,8 +48,8 @@ if __name__ == '__main__':
     from common.common_functions import get_uuid
     import time
 
-    file_path = "C:/Users/sarmn/Downloads/a/b"
-    save_file_path = "C:/Users/sarmn/Downloads/a/results"
+    file_path = "/Users/sarmn/Downloads/aaa"
+    save_file_path = "/Users/sarmn/Downloads/bbb"
     ysocr_url = "http://ysocr.datagrand.cn/ysocr/ocr"
     ysocr_file_url = "http://ysocr.datagrand.cn/file/"
 
@@ -61,7 +61,8 @@ if __name__ == '__main__':
     all_files_res = [os.path.basename(file).rsplit(".", 1)[0] for file in all_files_res]
     for abs_file_path in all_files:
         file_name = os.path.basename(abs_file_path)
-        if file_name.rsplit(".", 1)[0] in all_files_res:
+        if file_name.rsplit(".", 1)[0] in all_files_res \
+                or file_name.startswith("."):
             continue
 
         ocr_res_save_path = save_file_path + "/" + file_name.rsplit(".", 1)[0] + ".json"
