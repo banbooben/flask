@@ -26,9 +26,14 @@ class CeleryConfigBase(object):
     # celery获取任务地址
     # CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
     # if redis_config["redis_password"]:
-    CELERY_BROKER_URL = f'redis://:{redis_config["password"]}@{redis_config["host"]}:{redis_config["port"]}/{redis_config["db"]}'
-    # celery任务结果返回地址
-    RESULT_BACKEND = f'redis://:{redis_config["password"]}@{redis_config["host"]}:{redis_config["port"]}/1'
+    if redis_config["password"]:
+        CELERY_BROKER_URL = f'redis://:{redis_config["password"]}@{redis_config["host"]}:{redis_config["port"]}/{redis_config["db"]}'
+        # celery任务结果返回地址
+        RESULT_BACKEND = f'redis://:{redis_config["password"]}@{redis_config["host"]}:{redis_config["port"]}/1'
+    else:
+        CELERY_BROKER_URL = f'redis://{redis_config["host"]}:{redis_config["port"]}/{redis_config["db"]}'
+        # celery任务结果返回地址
+        RESULT_BACKEND = f'redis://{redis_config["host"]}:{redis_config["port"]}/1'
 
 
 class CeleryTestEnv(CeleryConfigBase):

@@ -10,12 +10,27 @@ import json
 import os
 import re
 
-from extensions.idps_tools.base import IdpsApiBase
+from extensions.idps_tools.base import IdpsToolsBase
 
 
-class IdpsApi(IdpsApiBase):
-    def __init__(self, product=True, jumper_username="shangyameng"):
-        super().__init__(product, jumper_username)
+class IdpsTools(IdpsToolsBase):
+    def __init__(self,
+                 username="superadminpro",
+                 password="BEgPDsMumFlc",
+                 host="idps2-qyfw2.test.datagrand.cn",
+                 port="80",
+                 db_host="127.0.0.1",
+                 db_port=21162,
+                 db_user="root",
+                 db_password="root",
+                 db_database="contract",
+                 charset="utf8mb4",
+                 re_try=3,
+                 product=True,
+                 jumper_username="shangyameng"):
+        super().__init__(username, password, host, port,
+                         db_host, db_port, db_user, db_password, db_database, charset,
+                         re_try, product, jumper_username)
 
     def create_request_by_single_file(self, file_path, type_name: str, ocr=True):
         """
@@ -176,6 +191,7 @@ class IdpsApi(IdpsApiBase):
 
 if __name__ == "__main__":
     from config.extensions_conf import idps_config
+
     # test_file_path = "C:/Users/HSZH/Desktop/config_files/BOE TECHNOLOGY (HK) LIMITED/OR40102322000586/报关单.pdf"
     # save_path = "/Users/sarmn/Desktop/suyan_idps_fields_conf.py"
     # tasks_id = [280, 279, 278]
@@ -183,7 +199,7 @@ if __name__ == "__main__":
     # saves_path = "/Users/sarmn/Nextcloud/code/idps小工具/upload"
     # saves_path = "/Users/sarmn/Desktop/EFI"
 
-    with IdpsApi(idps_config) as idps_worker:
+    with IdpsTools(idps_config) as idps_worker:
         # res = idps_worker.all_tags
         # res = idps_worker.get_tag_id_and_tags_by_tag_name("mas-安徽")
         # res = idps_worker.get_table_extract_result("2")

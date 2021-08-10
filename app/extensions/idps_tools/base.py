@@ -8,64 +8,77 @@
 # from conf.api_config import *
 
 from functools import wraps
-from initialization.application import logger
-from config.server_conf import current_config
-
 import requests
 import json
 import pymysql
 import os
-# from conf import config
+from pathlib import Path
+from requests import request
+from tenacity import (retry, retry_if_exception_type, retry_if_result,
+                      stop_after_attempt, wait_random, RetryError)
+from config.server_conf import current_config
+
+from initialization.application import logger
 
 
-class IdpsApiBase(object):
+def _value_is_none(value):
+    return value is None
+
+
+class IdpsToolsBase(object):
     access_token = ""
     headers = {
         "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
     }
 
-    def __init__(self, config, product=True, jumper_username="shangyameng"):
-        self.config = config
-        self.re_try = self.config.re_try
-        self.username = self.config.username
-        self.password = self.config.password
-        self.host = self.config.host
-        self.port = self.config.port
+    def __init__(self,
+                 username="superadminpro",
+                 password="BEgPDsMumFlc",
+                 host="idps2-qyfw2.test.datagrand.cn",
+                 port="80",
+                 db_host="127.0.0.1",
+                 db_port=21162,
+                 db_user="root",
+                 db_password="root",
+                 db_database="contract",
+                 charset="utf8mb4",
+                 re_try=3,
+                 product=True,
+                 jumper_username="shangyameng"):
+        self.re_try = re_try
+        self.username = username
+        self.password = password
+        self.product = product
+        self.host = f"http://{host}:{port}"
         self.logger = logger
+        self.feature_type_id = "?id=158"
+        self.tag_types_key = "?start=0&number=1000"
 
-        self.logon_route = self.config.logon_route
-        self.logon_url = "http://{}/{}".format(self.host, self.logon_route)
-
-        self.creat_request_route = self.config.creat_request_route
-        self.create_request_url = "http://{}/{}".format(self.host, self.creat_request_route)
-
-        self.feature_type_id = self.config.test_id
-        self.get_extract_result_route = self.config.get_extract_result_route
-        self.get_table_result_url = "http://{}/{}".format(self.host, self.get_extract_result_route)
-
-        self.tag_types_route = self.config.tag_types_route
-        self.tag_types_key = self.config.tag_types_key
-        self.tag_types_url = "http://{}/{}".format(self.host, self.tag_types_route)
+        self.logon_url = f'{self.host}/{"api/login"}'
+        self.create_request_url = f'{self.host}/{"api/extracting/instant"}'
+        self.get_table_result_url = f'{self.host}/{"api/web_api/table/"}'
+        self.tag_types_url = f'{self.host}/{"api/tag_types"}'
 
         self.bizlicense = "http://ysocr.datagrand.cn/ysocr/bizlicense_extract"
 
         self.all_tags = self._get_all_filed_id_and_name()
 
-        self.db_host = self.config.db_host
-        self.db_port = self.config.db_port
-        self.db_user = self.config.db_user
-        self.db_password = self.config.db_password
-        self.db_database = self.config.db_database
-        self.charset = self.config.charset
+        self.db_host = db_host
+        self.db_port = db_port
+        self.db_user = db_user
+        self.db_password = db_password
+        self.db_database = db_database
+        self.charset = charset
         self.download_file_url = f"http://{self.host}/upload/"
         self.connection, self.cursor = None, None
 
-        self.product = self.config.product
+        self.upload = Path().cwd() / "static/upload"
+        self.product = product
         self.jumper_username = jumper_username
 
-        if not os.path.exists(self.config.upload):
-            os.makedirs(self.config.upload)
+        if not os.path.exists(self.upload):
+            os.makedirs(self.upload)
 
     def __enter__(self):
         return self
@@ -133,28 +146,54 @@ class IdpsApiBase(object):
         result = self._requests_processor(url)
         return json.loads(result.content.decode("utf-8")) if result else None
 
-    def _requests_processor(self, url, method="GET", params=None, file=None):
-        if not self.access_token:
-            self._login_by_user()
-        if method == "GET":
-            send_review_request = requests.get(url, headers=self.headers)
-        else:
-            send_review_request = {
-                'PUT': requests.put,
-                'POST': requests.post,
-                'DELETE': requests.delete,
-            }[method](url, headers=self.headers, data=params, files=file)
+    @retry(retry=(retry_if_result(_value_is_none)),
+           wait=wait_random(min=0, max=3),
+           stop=stop_after_attempt(6),
+           reraise=True)
+    def _requests_processor(self, url, method="GET", **kwargs):
+        """
+        request请求，
+        如果请求返回的数据为None，重复请求6次，直到获取到数据，否侧报错抛出
+        Args:
+            url:
+            method:
+            **kwargs:
+
+        Returns:
+
+        """
+        send_review_request = request(method=method, url=url, **kwargs)
         if send_review_request.status_code == 401:
             self._login_by_user()
-            if self.re_try > 0:
-                self.re_try -= 1
-                return self._requests_processor(url=url, method=method, params=params, file=file)
-            else:
-                return {}
+            return self._requests_processor(method=method, url=url, **kwargs)
         else:
-            result = send_review_request if send_review_request else None
-            self.re_try = self.config.re_try
+            result = send_review_request if send_review_request is not None else None
+            # result = send_review_request
             return result
+            # return None
+
+    # def _requests_processor(self, url, method="GET", params=None, file=None):
+    #     if not self.access_token:
+    #         self._login_by_user()
+    #     if method == "GET":
+    #         send_review_request = requests.get(url, headers=self.headers)
+    #     else:
+    #         send_review_request = {
+    #             'PUT': requests.put,
+    #             'POST': requests.post,
+    #             'DELETE': requests.delete,
+    #         }[method](url, headers=self.headers, data=params, files=file)
+    #     if send_review_request.status_code == 401:
+    #         self._login_by_user()
+    #         if self.re_try > 0:
+    #             self.re_try -= 1
+    #             return self._requests_processor(url=url, method=method, params=params, file=file)
+    #         else:
+    #             return {}
+    #     else:
+    #         result = send_review_request if send_review_request else None
+    #         self.re_try = self.re_try
+    #         return result
 
     def _connect_and_get_cursor(self):
         """

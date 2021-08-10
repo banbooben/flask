@@ -8,10 +8,10 @@
 # @desc    :
 
 import os
-from extensions.idps_tools import idps_tools_
+from extensions.idps_tools import IdpsTools
 
 
-
+idps_tools_ = IdpsTools()
 path = "/Users/sarmn/varfile/doc_transform"
 url = "https://idps2-qyfw2.test.datagrand.cn/"
 
