@@ -70,3 +70,18 @@ class RequestTools(object):
 
 
 request_tools_ = RequestTools()
+
+if __name__ == "__main__":
+    import requests
+
+    url = "http://document_process:8000/rich_content"
+
+    payload={'file': '/share_data/doc_transform/4115光证资管-定存宝8号定向资产管理计划-jxy-定向资产管理合同.pdf',
+             'params': '{"detect_title": true, "detect_table": true, "detect_graph": false, "detect_header_footer": true}'}
+    files=[]
+    headers = {}
+
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+    print(response.text)
+
