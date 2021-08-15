@@ -18,6 +18,9 @@ from .test import TestResource
 
 bp_test = Blueprint("bp_test", __name__, static_folder='../static/extract', static_url_path='../static/extract')
 
+# 是否启动本模块
+enable = True
+
 # 对象
 registry = {
     # 路由

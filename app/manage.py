@@ -12,7 +12,7 @@ from initialization import init_app
 from config.extensions_conf import HTTP_HOST, HTTP_PORT
 
 from initialization.application import logger
-from initialization.error_process import ExtractException
+from initialization.base_error_process import ExtractException
 
 app = init_app()
 

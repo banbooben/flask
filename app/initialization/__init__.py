@@ -12,8 +12,8 @@ from config.server_conf import current_config
 
 from initialization.extensions import config_extensions
 from initialization.application import logger
-from initialization.error_process import init_error
-from initialization.request_process import init_hook_function, Request
+from initialization.base_error_process import init_error
+from initialization.base_request_process import init_hook_function, Request
 
 
 def init_app():
@@ -26,28 +26,26 @@ def init_app():
     # 配置基类
     flask_app.config.from_object(current_config)
 
+    # test
     flask_app.logger = logger
 
     # 设置跨域
     flask_app.config["JSON_AS_ASCII"] = False
     CORS(flask_app, supports_credentials=True)
 
-    # 重写request，并添加相关方法
-    flask_app.request_class = Request
-
     # 注册全局错误
     init_error(flask_app)
+
+    # 重写request，并添加相关方法
+    flask_app.request_class = Request
 
     # 注册钩子函数
     init_hook_function(flask_app)
 
-    # 配置蓝本路由、api接口
-    register_resource_and_blueprint(flask_app)
-
     # 配置扩展
     config_extensions(flask_app)
 
-    # # 注册获取请求ID，供日志使用
-    # RequestID(flask_app)
+    # 配置蓝本路由、api接口
+    register_resource_and_blueprint(flask_app)
 
     return flask_app

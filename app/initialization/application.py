@@ -8,6 +8,6 @@
 # @desc    :
 
 
-from initialization.logger_process import logger
+from initialization.base_logger_process import logger
 
 

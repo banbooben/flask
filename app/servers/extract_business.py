@@ -16,7 +16,7 @@ import re
 import time
 # from lxml import etree
 
-from initialization.error_process import ExtractException
+from initialization.base_error_process import ExtractException
 from initialization.application import logger
 from utils.requests_tools import request_tools_
 

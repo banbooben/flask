@@ -6,7 +6,7 @@
 
 from flask_restful import Resource
 from common.decorators import Decorator
-from initialization.resource_process import BaseResource
+from initialization.base_resource_process import BaseResource
 
 
 class ExtractView(BaseResource):

@@ -15,6 +15,9 @@ from flask import Blueprint
 
 bp_user = Blueprint("user", __name__, static_folder='../static/aria', static_url_path='../static/aria')
 
+# 是否启动本模块
+enable = True
+
 # 对象
 registry = {
     # 路由

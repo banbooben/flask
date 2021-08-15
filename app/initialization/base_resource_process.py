@@ -4,7 +4,7 @@
 # @Author  : shangyameng
 # @Email   : shangyameng@aliyun.com
 # @Site    : 
-# @File    : resource_process.py
+# @File    : base_resource_process.py
 # @desc    :
 
 from flask_restful import Resource
@@ -12,6 +12,12 @@ from flask import request
 
 
 class BaseResource(Resource):
+
+    def data(self):
+        return request.params
+
+    def files(self):
+        return request.files
 
     def response(self, message=None, code=200, data=None, *args, **kwargs):
         message = message or ""

@@ -8,8 +8,8 @@
 
 from flask_restful import Api as _Api
 
-from initialization.error_process import register_blueprint_error
-from initialization.request_process import init_bp_hook_function
+from initialization.base_error_process import register_blueprint_error
+from initialization.base_request_process import init_bp_hook_function
 from initialization.application import logger
 
 import os
@@ -18,6 +18,9 @@ import importlib
 
 
 def load_all_resource_and_blueprint():
+    """
+    加载当前文件夹下所有的路由和蓝本
+    """
     all_modules = []
     default_dirs = "apis"
     for root, dirs, files in os.walk(default_dirs):
@@ -30,6 +33,9 @@ def load_all_resource_and_blueprint():
             try:
                 registry = getattr(module, 'registry')
                 all_modules.append(registry)
+                # enable = getattr(module, 'enable')
+                # if enable:
+                #     all_modules.append(registry)
             except Exception as e:
                 logger.exception(e)
     return all_modules

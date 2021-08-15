@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # coding:utf-8
 # @Time    : 2020/12/26 11:38 下午
-# @Name    : logger_process.py
+# @Name    : base_logger_process.py
 # @Desc    :
 
 from loguru import logger

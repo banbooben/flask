@@ -8,6 +8,7 @@
 # @FilePath: /app/config/server_conf.py
 
 import os
+import random
 from common.common_conf import get_databases_url
 from pathlib import Path
 import multiprocessing
@@ -17,7 +18,7 @@ class BaseConfig(object):
     # app基础配置
     # 密钥
     PROJECT_NAME = "flask_app"
-    SECRET_KEY = b'aliksuydgi/ekjh$gawel;isvnurio'
+    SECRET_KEY = ''.join(random.sample('zyxwvutsrqponmlkjihgfedcba!@#$%^&*', 32)).encode()
 
     # 服务运行端口绑定
     BIND = os.getenv("BIND", "0.0.0.0:5000")

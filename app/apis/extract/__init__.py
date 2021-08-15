@@ -16,6 +16,9 @@ from .extract_view import ExtractView
 
 bp_extract = Blueprint("bp_extract", __name__, static_folder='../static/extract', static_url_path='../static/extract')
 
+# 是否启动本模块
+enable = False
+
 # 对象
 registry = {
     # 路由
