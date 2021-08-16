@@ -14,9 +14,10 @@ api.add_resource(resource, url)
 """
 
 from flask import Blueprint
-from .test import TestResource
+from .transform import TransFormResource
 
-bp_test = Blueprint("bp_test", __name__, static_folder='../static/extract', static_url_path='../static/extract')
+bp_transform = Blueprint("bp_transform", __name__, static_folder='../static/transform',
+                         static_url_path='../static/transform')
 
 # 是否启动本模块
 enable = True
@@ -25,12 +26,11 @@ enable = True
 registry = {
     # 路由
     "RESOURCE": (
-        (TestResource, "/v1/test"),
+        (TransFormResource, "/v1/transform"),
 
     ),
     # 蓝本
     "BLUEPRINT": (
-        bp_test,
+        bp_transform,
     ),
 }
-

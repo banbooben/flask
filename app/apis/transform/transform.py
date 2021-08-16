@@ -4,7 +4,7 @@
 # @Author  : shangyameng
 # @Email   : 
 # @Site    : 
-# @File    : test.py
+# @File    : transform.py
 # @desc    :
 from flask import request
 
@@ -15,11 +15,10 @@ from initialization.application import logger
 from celery_task.tasks import test_task
 
 
-class TestResource(BaseResource):
+class TransFormResource(BaseResource):
 
-    def get(self):
-        logger.debug("test123123")
-        logger.info("info123")
+    @Decorator.time_func
+    def post(self):
 
         params = request.params
         if params.get("sync", "false") == "true":
