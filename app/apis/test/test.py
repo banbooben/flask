@@ -27,8 +27,3 @@ class TestResource(BaseResource):
         else:
             test_task.document_parse()
         return self.response(code=200, message="请求成功")
-
-
-
-
-

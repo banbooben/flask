@@ -32,10 +32,9 @@ def load_all_resource_and_blueprint():
             importlib.reload(module)
             try:
                 registry = getattr(module, 'registry')
-                all_modules.append(registry)
-                # enable = getattr(module, 'enable')
-                # if enable:
-                #     all_modules.append(registry)
+                enable = getattr(module, 'enable')
+                if enable:
+                    all_modules.append(registry)
             except Exception as e:
                 logger.exception(e)
     return all_modules
