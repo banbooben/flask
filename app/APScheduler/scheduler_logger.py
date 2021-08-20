@@ -36,18 +36,4 @@ log_conf = {
          "enqueue": True},
     ]
 }
-#
-# # logger.add(**{"sink": scheduler_config.LOG_FILE_PATH,
-# #               "level": scheduler_config.LOG_LEVEL,
-# #               # "serialize": True,
-# #               "format": '<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green>'
-# #                         ' - <green>{request_id}</green>'
-# #                         ' - <level>{level: <8}</level>'
-# #                         ' - <cyan>{name}</cyan>:<cyan>{line}</cyan>'
-# #                         ' - [<cyan>{function}</cyan>]:  <level>{message}</level>',
-# #               "filter": my_filter,
-# #               "enqueue": True})
-# #
-# # logger.level("scheduler")
-#
 logger.configure(**log_conf)
