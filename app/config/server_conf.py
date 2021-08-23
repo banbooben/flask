@@ -32,9 +32,12 @@ class BaseConfig(object):
     # 日志配置存储位置
     LOG_DIR = (Path.cwd() / 'logs').as_posix()
     LOG_LEVEL = "INFO"
+    LOG_FILE_NAME = os.getenv("LOG_FILE_NAME", 'root.log')
 
     # 上传文件存储位置
     UPLOAD_PATH = (Path.cwd() / 'static/upload').as_posix()
+    # 上传文件允许格式
+    ALLOWED_EXTENSIONS = tuple(["pdf", "PDF", "doc", "docx"])
 
     JWT_URL_WHITE_LIST = {
         ('/', 'GET'),
@@ -61,8 +64,6 @@ class Config(BaseConfig):
     SQLALCHEMY_POOL_PRE_PING = True     # 每次取出一个连接时，会发送一个select 1来检查连接是否有效
     SQLALCHEMY_POOL_TIMEOUT = 30        # 链接超时时间
     SQLALCHEMY_POOL_RECYCLE = -1        # 表示连接在给定时间之后会被回收，不能超过8小时
-    # 上传文件允许格式
-    ALLOWED_EXTENSIONS = set(["pdf", "PDF", "doc", "docx"])
 
     # 服务器文件路径
     SERVER_UPLOAD_PATH = "/share_data/gtja_api/upload"
