@@ -11,7 +11,7 @@ from sys import stdout
 
 from config.server_conf import current_config, current_environment
 
-root_file = current_config.LOG_DIR + "/" + current_config.LOG_FILE_NAME
+root_file = current_config.LOG_DIR + '/root.log'
 Path(current_config.LOG_DIR).mkdir(exist_ok=True)
 
 

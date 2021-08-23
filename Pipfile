@@ -43,7 +43,6 @@ uwsgi = "==2.0.19.1"
 numpy = "*"
 cmake = "*"
 loguru = "*"
-apscheduler = "*"
 
 [dev-packages]
 flake8 = "*"
