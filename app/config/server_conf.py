@@ -32,6 +32,7 @@ class BaseConfig(object):
     # 日志配置存储位置
     LOG_DIR = (Path.cwd() / 'logs').as_posix()
     LOG_LEVEL = "INFO"
+    LOG_FILE_NAME = os.getenv("LOG_FILE_NAME", 'root.log')
 
     # 上传文件存储位置
     UPLOAD_PATH = (Path.cwd() / 'static/upload').as_posix()
