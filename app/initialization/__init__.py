@@ -11,7 +11,6 @@ from apis import register_resource_and_blueprint
 from config.server_conf import current_config
 
 from initialization.extensions import config_extensions
-from initialization.application import logger
 from initialization.base_error_process import init_error
 from initialization.base_request_process import init_hook_function, Request
 
@@ -26,8 +25,8 @@ def init_app():
     # 配置基类
     flask_app.config.from_object(current_config)
 
-    # test
-    flask_app.logger = logger
+    # # test
+    # flask_app.logger = logger
 
     # 设置跨域
     flask_app.config["JSON_AS_ASCII"] = False

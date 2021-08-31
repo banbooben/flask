@@ -11,7 +11,7 @@ from flask import jsonify
 from initialization import init_app
 from config.extensions_conf import HTTP_HOST, HTTP_PORT
 
-from initialization.application import logger
+from initialization.application import logger, custom_response_
 from initialization.base_error_process import ExtractException
 
 app = init_app()
@@ -22,11 +22,7 @@ manager.add_command('db', MigrateCommand)
 
 @app.route("/", methods=['GET'])
 def index():
-    logger.info("ok test")
-    logger.error("error test")
-    logger.debug("debug test")
-    # raise ExtractException(code="E02")
-    return jsonify({"code": 200, "msg": "ok", "data": {}})
+    return custom_response_.response()
 
 
 if __name__ == "__main__":

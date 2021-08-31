@@ -1,10 +1,11 @@
+
 from flask.globals import request
 from flask.wrappers import Request as _Request
 from common.common_functions import get_uuid
+import json
 
 
 class Request(_Request):
-
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.request_id = get_uuid()
@@ -38,6 +39,13 @@ def init_hook_function(app):
         app.logger.info(request.request_id)
         app.logger.info(request.params)
         ...
+
+    @app.after_request
+    def add_request_id(response):
+        data = json.loads(response.data.decode("utf-8"))
+        data.update({"request_id": request.request_id})
+        response.data = json.dumps(data).encode()
+        return response
 
 
 def init_bp_hook_function(bp):

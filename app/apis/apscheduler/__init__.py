@@ -2,15 +2,21 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/8/19 4:36 下午
 # @Author  : shangyameng
-# @Email   : 
-# @Site    : 
+# @Email   :
+# @Site    :
 # @File    : __init__.py.py
 # @desc    :
 
 from flask import Blueprint
-from .ap_scheduler import APSchedulerResource, APSchedulerDeleteResource
+from .ap_scheduler import (
+    APSchedulerJobsBaseResource,
+    APSchedulerJobsResource,
+    APSchedulerJobResource,
+)
 
-bp_scheduler = Blueprint("bp_scheduler", __name__, static_folder='../static/scheduler',
+bp_scheduler = Blueprint("bp_scheduler",
+                         __name__,
+                         static_folder='../static/scheduler',
                          static_url_path='../static/scheduler')
 
 # 是否启动本模块
@@ -20,12 +26,10 @@ enable = True
 registry = {
     # 路由
     "RESOURCE": (
-        (APSchedulerResource, "/api/scheduler"),
-        (APSchedulerDeleteResource, "/api/scheduler/<string:job_id>"),
-
+        (APSchedulerJobsBaseResource, "/api/scheduler/jobs"),
+        (APSchedulerJobsResource, "/api/scheduler/jobs/<string:job_id>"),
+        (APSchedulerJobResource, "/api/scheduler/jobs/<string:job_id>/<string:active>"),
     ),
     # 蓝本
-    "BLUEPRINT": (
-        bp_scheduler,
-    ),
+    "BLUEPRINT": (bp_scheduler, ),
 }
