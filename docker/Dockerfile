@@ -14,9 +14,9 @@ COPY ./${PROJECT_NAME} /${PROJECT_NAME}
 #
 
 RUN chmod -R 777 /${PROJECT_NAME}/ \
-    && pip3 install --no-cache-dir pipenv \
-    && pipenv install --deploy --system --ignore-pipfile
-#    && pip3 install --no-cache-dir -r /${PROJECT_NAME}/deploy/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+#    && pip3 install --no-cache-dir pipenv \
+#    && pipenv install --deploy --system --ignore-pipfile
+    && pip3 install --no-cache-dir -r /${PROJECT_NAME}/deploy/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 #    && pip3 install --no-cache-dir -r /${PROJECT_NAME}/deploy/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 RUN mv /${PROJECT_NAME}/deploy/default.conf /etc/nginx/sites-available/default
