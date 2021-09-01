@@ -12,7 +12,7 @@ from initialization.application import logger
 
 
 def load_function(file_path, func):
-    module = importlib.import_module(file_path.replace("/", "."))
+    module = importlib.import_module(file_path.replace("/", ".").rsplit(".", 1)[0])
     importlib.reload(module)
     try:
         func = getattr(module, func)

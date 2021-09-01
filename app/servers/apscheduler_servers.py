@@ -16,25 +16,26 @@ from utils.load_function import load_function
 class APSchedulerServers(object):
     def add_job(self, scheduler, params, files):
         job_func = params.get('job_func', None)
-        if job_func:
+        job_file = params.get('job_file', None)
+        if job_func and job_file:
             del params["job_func"]
-            # obj_name, func_name = job_func.split(".", 1)
-            # obj = load_function("APScheduler/jobs", obj_name)
-            job_info = self._add_job(scheduler, eval(job_func), **params)
+            del params["job_file"]
+            obj_name = load_function(job_file, job_func)
+            job_info = self._add_job(scheduler, obj_name, **params)
         else:
             raise APIException("hob_func error")
         return job_info
 
-    def update_job(self, schedule, job_id, params):
-        return schedule.reschedule_job(job_id, **params)
+    def update_job(self, schedule, job_id, **kwargs):
+        return schedule.reschedule_job(job_id, **kwargs)
 
-    def jobs_manage(self, job_id, active):
+    def jobs_manage(self, schedule, job_id, active):
         if active == "pause":
-            job = self.pause_job(job_id, active)
+            job = self.pause_job(schedule, job_id)
         elif active == "resume":
-            job = self.resume_job(job_id, active)
+            job = self.resume_job(schedule, job_id)
         elif active == "run":
-            job = self.run_job(job_id, active)
+            job = self.run_job(schedule, job_id)
         else:
             APIException("error ")
         return job
