@@ -18,7 +18,7 @@ import time
 
 from initialization.base_error_process import ExtractException
 from initialization.application import logger
-from utils.requests_tools import request_tools_
+from tools.requests_tools import request_tools_
 
 
 class ExtractApiBusiness(object):
