@@ -12,18 +12,20 @@ from initialization.application import logger
 
 
 class ExceptionBase(Exception):
-    def __init__(self, message, code=None, payload=None):
+    def __init__(self, message="", code=400, data=None):
         super().__init__()
         self.message = message
-        self.code = code if code else 400
-        self.payload = payload
+        self.code = code
+        self.payload = data or {}
+        self.set_default_code()
 
     def to_dict(self):
         rv = dict(self.payload or ())
         rv.update(self.get_request_id())
         rv['message'] = self.message
         rv['code'] = self.code
-        rv['data'] = {}
+        if not rv.get("data"):
+            rv['data'] = {}
         logger.error(json.dumps(rv))
         return rv
 
@@ -37,32 +39,62 @@ class ExceptionBase(Exception):
         finally:
             return {"request_id": request_id}
 
+    def set_default_code(self):
+        ...
+
 
 class APIException(ExceptionBase):
-    ...
+
+    def set_default_code(self):
+        if self.code == "E001":
+            if not self.message:
+                self.message = "缺少回函章！"
+        elif self.code == "E002":
+            if not self.message:
+                self.message = "回函章名称和被函正方不一致！"
+        elif self.code == "E003":
+            if not self.message:
+                self.message = "回函件与发函件不一致！"
+        elif self.code == "E004":
+            if not self.message:
+                self.message = "快递单据和发函拷贝单位名称不一致！"
+        elif self.code == "E005":
+            if not self.message:
+                self.message = "不存在快递单号！"
+        elif self.code == "E006":
+            if not self.message:
+                self.message = "ysocr服务出错，请检查服务！"
+        elif self.code == "E007":
+            if not self.message:
+                self.message = "ysocr未识别出内容！"
 
 
 class FileException(ExceptionBase):
-    def __init__(self, message="", code=None, payload=None):
-        super().__init__(message, code, payload)
-        self.set_default_message_by_code()
 
-    def set_default_message_by_code(self):
-
+    def set_default_code(self):
         if self.code == "F001":
             if not self.message:
                 self.message = "缺少文件！"
+        elif self.code == "F002":
+            if not self.message:
+                self.message = "文件不存在！"
+        elif self.code == "F003":
+            if not self.message:
+                self.message = "上传文件中含有错误类型！"
+        elif self.code == "F004":
+            if not self.message:
+                self.message = "文件保存失败！"
 
 
 class ExtractException(ExceptionBase):
     status_code = 400
 
-    def __init__(self, message="", code=None, payload=None):
-        super().__init__(self)
-        self.message = message
-        self.payload = payload
-        self.code = code
-        self.set_default_code()
+    # def __init__(self, message="", code=None, payload=None):
+    #     super().__init__(self)
+    #     self.message = message
+    #     self.payload = payload
+    #     self.code = code
+    #     self.set_default_code()
 
     def to_dict(self):
         rv = dict(self.payload or ())
