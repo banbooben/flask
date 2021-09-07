@@ -8,6 +8,6 @@
 # @desc    :
 
 from .base_logger_process import logger
-from .custom_response import CustomResponse
+from .base_custom_response import CustomResponse
 
 custom_response_ = CustomResponse()

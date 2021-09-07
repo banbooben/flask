@@ -5,7 +5,7 @@
 # @Email: shangyameng@aliyun.com
 # @Date: 2021-07-01 16:49:04
 # @LastEditTime: 2021-08-31 13:29:41
-# @FilePath: /app/initialization/custom_response.py
+# @FilePath: /app/initialization/base_custom_response.py
 
 
 class CustomResponse(object):

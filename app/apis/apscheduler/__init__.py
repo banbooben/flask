@@ -14,10 +14,10 @@ from .ap_scheduler import (
     APSchedulerJobResource,
 )
 
-bp_scheduler = Blueprint("bp_scheduler",
-                         __name__,
-                         static_folder='../static/scheduler',
-                         static_url_path='../static/scheduler')
+scheduler = Blueprint("scheduler",
+                      __name__,
+                      static_folder='../static/scheduler',
+                      static_url_path='../static/scheduler')
 
 # 是否启动本模块
 enable = True
@@ -31,5 +31,5 @@ registry = {
         (APSchedulerJobResource, "/api/scheduler/jobs/<string:job_id>/<string:active>"),
     ),
     # 蓝本
-    "BLUEPRINT": (bp_scheduler, ),
+    "BLUEPRINT": scheduler,
 }

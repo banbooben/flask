@@ -10,7 +10,7 @@
 from flask import Blueprint
 from .user_resource import UserLoginResource
 
-user = Blueprint("bp_user", __name__, static_folder='../static/scheduler', static_url_path='../static/scheduler')
+user = Blueprint("user", __name__, static_folder='../static/scheduler', static_url_path='../static/scheduler')
 
 # 是否启动本模块
 enable = True
@@ -22,5 +22,5 @@ registry = {
         (UserLoginResource, "/api/login"),
     ),
     # 蓝本
-    "BLUEPRINT": (user, ),
+    "BLUEPRINT": user,
 }

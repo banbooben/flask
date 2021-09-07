@@ -47,14 +47,18 @@ class Api(_Api):
 
 def register_resource_and_blueprint(app):
     api = Api(app)
+    bp = None
     all_resource_and_blueprint = load_all_resource_and_blueprint()
-    for api_obj in all_resource_and_blueprint:
+    for bp_obj in all_resource_and_blueprint:
+        if api_bp := bp_obj.get("BLUEPRINT", None):
+            api = Api(api_bp)
+            bp = api_bp
 
-        for api_info in api_obj.get("RESOURCE", ()):
+        for api_info in bp_obj.get("RESOURCE", ()):
             resource, url = api_info[0], api_info[1]
             api.add_resource(resource, url)
 
-        for bp in api_obj.get("BLUEPRINT", ()):
-            app.register_blueprint(bp, url_prefix="/{}".format(bp.name))
+        if bp:
+            app.register_blueprint(bp, url_prefix=f"/api/{bp.name}")
             register_blueprint_error(bp)
             init_bp_hook_function(bp)
