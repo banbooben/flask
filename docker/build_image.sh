@@ -17,8 +17,7 @@ cp -R ../deploy ./${docker_app}
 #cp ./default ./${docker_app}/default
 #cp ./init_database.sh ./${docker_app}/init_databases.sh
 #cp -R ../crawler/ ./${docker_app}/
-# cd ./${docker_app}/flaskr && rm
-# -f ./logs/* && cd ..
+cd ./${docker_app} && rm -f ./app/logs/* && rm -rf ./app/static/upload/* && cd ..
 echo "build"
 docker build -f Dockerfile -t flaskr:"release_${time}" .
 

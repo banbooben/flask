@@ -1,23 +1,24 @@
-# FROM python:3.10.0b4-slim
 FROM python:3.9.6-slim
 
+COPY ./sources.list /etc/apt/sources.list
 RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf \
     && cd / && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN apt-get update -y
 
-RUN apt-get install -y nginx wget vim curl gcc passwd openssl openssh-server net-tools \
+RUN apt-get install -y nginx wget vim curl gcc passwd openssl openssh-server net-tools  locales \
+    && sed -ie 's/# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/g' /etc/locale.gen \
+    && locale-gen \
     && mkdir -p /var/run/sshd \
     && mkdir -p /root/.ssh \
     && echo root:root | chpasswd \
     && ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -P '' -N '' -y \
     && sed -i 's/#Match User anoncvs/PermitRootLogin yes/' /etc/ssh/sshd_config
-EXPOSE 22
 
-ENV LANG=zh_CN.UTF-8 \
-    LC_ALL=zh_CN.UTF-8 \
-    LANGUAGE=zh_CN.UTF-8 \
-    ENVIRONMENT=DOCKER_PROD \
-    PYTHONIOENCODING=utf-8
+EXPOSE 22
+ENV LANG zh_CN.UTF-8
+ENV LANGUAGE zh_CN.UTF-8
+ENV LC_ALL zh_CN.UTF-8
+
 
 CMD /usr/sbin/sshd -D

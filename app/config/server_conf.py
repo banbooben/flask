@@ -25,8 +25,8 @@ class BaseConfig(object):
     WORK_NUMS = os.getenv("WORK_NUMS", multiprocessing.cpu_count())
 
     # app静态资源路径
-    TEMPLATE_FOLDER = '../templates'
-    STATIC_FOLDER = '../static'
+    TEMPLATE_FOLDER = './templates'
+    STATIC_FOLDER = './static'
     STATIC_URL_PATH = '/'
 
     # 日志配置存储位置

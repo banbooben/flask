@@ -26,6 +26,6 @@ class CustomResponse(object):
     def response(self, message=None, code=200, data=None, *args, **kwargs):
         message = message or self._message
         data = data or self._data
-        self._response_data.update(data)
+        self._response_data.update({"data": data, "message": message, "code": code})
         self._response_data.update(kwargs)
         return self._response_data

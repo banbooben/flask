@@ -1,16 +1,17 @@
 FROM  python:3.9.6-slim
 
-#RUN yum update -y
+COPY ./sources.list /etc/apt/sources.list
 RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf \
     && cd / && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN apt-get update -y
-RUN apt-get install -y nginx wget vim curl gcc procps
+RUN apt-get install -y nginx wget vim curl gcc procps locales && \
+    sed -ie 's/# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/g' /etc/locale.gen && \
+    locale-gen
 
-ENV LANG=zh_CN.UTF-8 \
-    LC_ALL=zh_CN.UTF-8 \
-    LANGUAGE=zh_CN.UTF-8 \
-    ENVIRONMENT=DOCKER_PROD \
-    PYTHONIOENCODING=utf-8
+ENV LANG zh_CN.UTF-8
+ENV LANGUAGE zh_CN.UTF-8
+ENV LC_ALL zh_CN.UTF-8
+
 
 CMD nginx -g "daemon off;"

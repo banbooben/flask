@@ -19,8 +19,9 @@ def init_app():
     # 初始化app
     flask_app = Flask(current_config.PROJECT_NAME,
                       template_folder=current_config.TEMPLATE_FOLDER,
-                      static_folder=current_config.STATIC_FOLDER,
-                      static_url_path=current_config.STATIC_URL_PATH)
+                      # static_folder=current_config.STATIC_FOLDER,
+                      # static_url_path=current_config.STATIC_URL_PATH
+                      )
 
     # 配置基类
     flask_app.config.from_object(current_config)
