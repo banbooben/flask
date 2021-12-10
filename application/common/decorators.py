@@ -9,7 +9,9 @@
 import threading
 import time
 from functools import wraps
-from initialization.application import logger
+
+
+# from loguru import logger
 
 
 # from .common_func import serialize, deserialization
@@ -62,13 +64,15 @@ def singleton(cls):
 class Decorator(object):
     @classmethod
     def time_func(cls, func):
+        from application.initialization.application import logger
+
         @wraps(func)
         def _wrap(*args, **kwargs):
+            logger.info(f"start function: '{func.__name__}'")
             st = time.time()
             rst = func(*args, **kwargs)
             et = time.time()
-            output_str = "func: '{}' time: {}s".format(func.__name__, et - st)
-            logger.info(output_str)
+            logger.info(f"end function: '{func.__name__}' time: {et - st}s")
             return rst
 
         return _wrap
@@ -80,6 +84,18 @@ class Decorator(object):
             from flask import request
             rst = func(*args, **kwargs)
             rst.update({"request_id": request.request_id})
+            return rst
+
+        return _wrap
+
+    @classmethod
+    def deserialization(cls, func):
+        @wraps(func)
+        def _wrap(*args, **kwargs):
+            from application.utils.dict2obj import x_dict
+            args = [x_dict(arg) for arg in args]
+            kwargs = x_dict(kwargs)
+            rst = func(*args, **kwargs)
             return rst
 
         return _wrap
