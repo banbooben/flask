@@ -14,9 +14,7 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" />
-    </content>
+    <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.9 (flask-kUJ9fKBj)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

@@ -1,0 +1,31 @@
+[[source]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+loguru = "*"
+flask-cors = "*"
+flask-restful = "*"
+flask-smorest = "*"
+apscheduler = "*"
+celery = "*"
+tenacity = "*"
+requests = "*"
+pika = "*"
+flask-sqlalchemy = "*"
+flask-jwt-extended = "*"
+pymysql = "*"
+opencv-python-headless = "*"
+python-ldap = "*"
+pdf2image = "*"
+pypdf2 = "*"
+pymupdf = "*"
+redis = "*"
+webargs = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

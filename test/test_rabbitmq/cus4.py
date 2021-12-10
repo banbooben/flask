@@ -1,6 +1,6 @@
 import json
 
-from app.exceptions.rabbit.rabbit_factory import ConnectionFactory
+from old_application.exceptions.rabbit.rabbit_factory import ConnectionFactory
 from exceptions.rabbit.rabbitmq import RabbitConsumer, RpcRabbitConsumer
 # from local_logger import logger
 # import time

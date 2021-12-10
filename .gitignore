@@ -133,7 +133,7 @@ dmypy.json
 
 # myself
 data/
-app/logs/
+old_application/logs/
 .history
 
 
