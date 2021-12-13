@@ -135,5 +135,5 @@ dmypy.json
 data/
 old_application/logs/
 .history
-
+jobs.sqlite
 
