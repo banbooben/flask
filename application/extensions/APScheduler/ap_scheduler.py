@@ -4,8 +4,8 @@
 # @Author: shangyameng
 # @Email: shangyameng@aliyun.com
 # @Date: 2021-08-18 18:12:30
-# @LastEditTime: 2021-10-11 21:37:08
-# @FilePath: /bdo/flask_app/APScheduler/test.py
+# @LastEditTime: 2021-12-13 17:50:44
+# @FilePath: /flask/application/extensions/APScheduler/ap_scheduler.py
 
 # import sys
 from application.initialization.logger_process import logger
@@ -37,8 +37,11 @@ def listener(event):
         ...
 
 
+def schedule_init():
+    scheduler.remove_all_jobs()
+    scheduler.start()
+    scheduler.add_listener(listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
+    scheduler._logger = logger
+
+
 scheduler = BackgroundScheduler(**scheduler_config)
-scheduler.start()
-scheduler.remove_all_jobs()
-scheduler.add_listener(listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
-scheduler._logger = logger

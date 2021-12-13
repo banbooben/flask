@@ -4,14 +4,15 @@
 # @Author: shangyameng
 # @Email: shangyameng@aliyun.com
 # @Date: 2021-08-18 18:12:30
-# @LastEditTime: 2021-08-18 18:45:45
-# @FilePath: /APScheduler/APScheduler/__init__.py
+# @LastEditTime: 2021-12-13 17:51:43
+# @FilePath: /flask/application/extensions/APScheduler/__init__.py
 
 
 def schedule_init():
-    from .ap_scheduler import scheduler
-    from .jobs import all_jobs
+    from .ap_scheduler import scheduler, schedule_init
+    from application.APScheduler_tasks import all_jobs
 
+    schedule_init()
     current_jobs = {}
     _ = [current_jobs.update(item) for item in all_jobs]
 
