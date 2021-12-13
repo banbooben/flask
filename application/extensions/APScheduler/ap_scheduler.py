@@ -38,8 +38,8 @@ def listener(event):
 
 
 def schedule_init():
-    scheduler.remove_all_jobs()
     scheduler.start()
+    scheduler.remove_all_jobs()
     scheduler.add_listener(listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
     scheduler._logger = logger
 
