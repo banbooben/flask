@@ -8,14 +8,11 @@
 # @desc    :
 
 from flask import request
-from marshmallow import fields, Schema
-
-from application.apis.apscheduler import scheduler as ap_scheduler_bp
 
 from application.extensions.APScheduler.ap_scheduler import scheduler
 
 from application.initialization.resource_process import BaseResource
-from application.initialization.extensions_process.apscheduler_servers import APSchedulerServers
+from application.extensions.APScheduler.apscheduler_servers import APSchedulerServers
 
 
 class ApSchedulerBaseResource(BaseResource):
