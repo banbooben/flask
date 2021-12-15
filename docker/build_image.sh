@@ -2,25 +2,51 @@
 # @Author: shangyameng
 # @Email: shangyameng@aliyun.com
 # @Date: 2020-05-10 21:24:13
-# @LastEditTime: 2021-04-12 10:33:17
-# @FilePath: /flask/docker/build_image.sh
+ # @LastEditTime: 2021-10-21 14:00:34
+ # @FilePath: /smfg_api/docker/build_image.sh
 ###
 
-time=$(date "+%Y%m%d%H%M%S")
-printf "\n================ Start build flaskr:release_${time} image ================\n\n"
 docker_app="flaskr"
-mkdir ./${docker_app}
-cp -R ../app ./${docker_app}
-cp -R ../deploy ./${docker_app}
-#cp ../Pipfile* ./${docker_app}
-#cp ./requirements.txt ./${docker_app}/requirements.txt
-#cp ./default ./${docker_app}/default
-#cp ./init_database.sh ./${docker_app}/init_databases.sh
-#cp -R ../crawler/ ./${docker_app}/
-cd ./${docker_app} && rm -f ./app/logs/* && rm -rf ./app/static/upload/* && cd ..
-echo "build"
-docker build -f Dockerfile -t flaskr:"release_${time}" .
+image_name="sarmn/flaskr"
+time=$(date "+%Y%m%d%H%M")
 
-rm -rf ./${docker_app}
+# 拷贝文件
+copy_files(){
 
-printf "\n================ flaskr:release_${time} image build Successful ================\n\n"
+    # 创建文件夹
+    mkdir ./${docker_app}
+
+    # 拷贝相关资源
+    cp -R ../application ./${docker_app}
+    cp -R ../deploy ./${docker_app}
+    cp ../Pipfile* ./${docker_app}
+
+    # 删除多余无需打包文件
+    cd ./${docker_app} && rm -f ./flask_app/logs/* && \
+    rm -rf ./flask_app/migrations && rm -rf ./flask_app/static/upload/* && cd ..
+}
+
+# 开始构建镜像
+start_build_image(){
+    printf "\n================ Start build sarmn/flaskr:release_${time} image ================\n\n"
+    echo "start build"
+    docker build -f Dockerfile -t "${image_name}:release_${time}" .
+
+    rm -rf ./${docker_app}
+
+    docker images | grep "release_${time}"
+}
+
+# 推送镜像
+push_image(){
+    docker push "${image_name}:release_${time}"
+}
+
+
+start(){
+  copy_files
+  start_build_image
+#  push_image
+}
+
+start

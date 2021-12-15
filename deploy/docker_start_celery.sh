@@ -9,8 +9,8 @@
 #echo "start web_api by uwsgi"
 #$(uwsgi --ini /flaskr/deploy/uwsgi.ini)
 #
-#echo "start celery"
-#$(celery -A celery_task.celery_process.celery_app worker -l info)
+echo "start celery"
+$(celery -A celery_task.celery_process.celery_app worker -l info)
 
 
 #echo "start web_api by uwsgi"
@@ -19,10 +19,9 @@
 #echo "start nginx server"
 #$(nginx -g "daemon off;")
 
-echo "start init sql"
-cd /application
-flask create_all
-echo "start nginx server"
-service nginx start
-echo "start web_api by uwsgi"
-uwsgi --ini /deploy/uwsgi.ini
+
+
+#echo "start nginx server"
+#service nginx start
+#echo "start web_api by uwsgi"
+#uwsgi --ini /flaskr/deploy/uwsgi.ini

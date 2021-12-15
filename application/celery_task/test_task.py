@@ -7,15 +7,12 @@
 # @File    : a.py
 # @desc    :
 
-from initialization.application import logger
-from celery_task.celery_process import celery_app
-
-from servers.extract_business import ExtractApiBusiness
+from application.initialization.application import logger
+from application.extensions.celery_task.celery_process import celery_app
 
 
 @celery_app.task
 def document_parse():
     # html = common_request("http://www.baidu.com")
     logger.info("start test")
-    ExtractApiBusiness().get_business()
     # return html

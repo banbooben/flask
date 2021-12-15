@@ -1,11 +1,11 @@
 FROM  python:3.9.6-slim
 
-COPY ./sources.list /etc/apt/sources.list
+# COPY ./sources.list /etc/apt/sources.list
 RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf \
     && cd / && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN apt-get update -y
-RUN apt-get install -y nginx wget vim curl gcc procps locales && \
+RUN apt-get install -y nginx wget vim curl gcc build-essential procps locales libsasl2-dev libldap2-dev libssl-dev && \
     sed -ie 's/# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/g' /etc/locale.gen && \
     locale-gen
 
