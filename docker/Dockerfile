@@ -15,6 +15,7 @@ COPY ./${PROJECT_NAME}/Pipfile.lock /Pipfile.lock
 #    && mkdir -p /var/log/supervisor \
 #    && cp /${PROJECT_NAME}/deploy/flask_supervisor_config.conf /etc/supervisor/conf.d/flask_supervisor_config.conf
 #
+# RUN apt-get install -y libffi-dev g++
 
 RUN chmod -R 777 /application \
     && pip3 install --no-cache-dir pipenv -i https://mirrors.aliyun.com/pypi/simple/\
