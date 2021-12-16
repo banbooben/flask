@@ -10,7 +10,7 @@ from pathlib import Path
 
 # http config
 HTTP_HOST = '0.0.0.0'
-HTTP_PORT = 5000
+HTTP_PORT = 8086
 
 # header config
 fake_useragent_file_path = "/Users/sarmn/import_files/fake_useragent_0.1.11.json"

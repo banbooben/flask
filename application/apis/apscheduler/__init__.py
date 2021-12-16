@@ -13,16 +13,16 @@
 from flask_smorest import Blueprint
 from application.config.server_conf import current_config
 
-scheduler = Blueprint("scheduler",
-                      __name__,
-                      static_folder=f'{current_config.STATIC_FOLDER}/scheduler',
-                      static_url_path='/')
+scheduler_bp = Blueprint("scheduler",
+                         __name__,
+                         static_folder=f'{current_config.STATIC_FOLDER}/scheduler',
+                         static_url_path='/')
 
 
 class BPInit(object):
     # 是否启动本模块
     enable = True
-    blueprint = scheduler
+    blueprint = scheduler_bp
 
     from .ap_scheduler import (
         APSchedulerJobsBaseResource,
