@@ -7,9 +7,7 @@
 # @File    : test.py
 # @desc    :
 
-from flask import request
-# from webargs.core import dict2schema
-# from webargs import fields
+# from flask import request
 
 from . import auth
 
@@ -22,7 +20,7 @@ from application.initialization.logger_process import logger
 from application.initialization.resource_process import BaseResource
 
 
-from ...initialization.error_process import APIException
+# from ...initialization.error_process import APIException
 
 
 class AuthTest(BaseResource):

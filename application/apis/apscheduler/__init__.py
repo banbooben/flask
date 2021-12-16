@@ -11,6 +11,7 @@
 
 # from flask import Blueprint
 from flask_smorest import Blueprint
+from marshmallow import fields, Schema
 from application.config.server_conf import current_config
 
 scheduler_bp = Blueprint("scheduler",
