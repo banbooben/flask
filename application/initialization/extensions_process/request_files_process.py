@@ -38,9 +38,11 @@ class FlaskRequestFilesFunc(object):
         Path(save_file_dir).mkdir(exist_ok=True)
 
         _ = [[
-            cls._save_single_file(all_files_path, file, file_key, ind, request_id, save_file_dir)
+            cls()._save_single_file(all_files_path, file, file_key, ind, request_id, save_file_dir)
             for ind, file in enumerate(files.getlist(file_key))]
             for file_key in files]
+
+        del _
 
         logger.info(f"end save file use {round(time.time() - start_time, 2)}s")
         return all_files_path
