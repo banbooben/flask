@@ -2,7 +2,22 @@
 # -*- coding:utf-8 -*-
 
 # from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+from contextlib import contextmanager
+
+from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy
+
+
+# 重写SQLAlchemy的核心类 from https://doc.cms.talelin.com/server/flask/#%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83
+class SQLAlchemy(_SQLAlchemy):
+    @contextmanager
+    def auto_commit(self):
+        try:
+            yield
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
 
 # # 创建数据库管理对象db
 db = SQLAlchemy()
