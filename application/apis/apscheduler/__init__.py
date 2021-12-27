@@ -22,7 +22,7 @@ scheduler_bp = Blueprint("scheduler",
 
 class BPInit(object):
     # 是否启动本模块
-    enable = True
+    enable = False
     blueprint = scheduler_bp
 
     from .ap_scheduler import (

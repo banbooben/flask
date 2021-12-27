@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 # from flask_script import Manager
 # from flask_migrate import MigrateCommand
 from application.initialization import init_app
-from application.config.extensions_conf import HTTP_HOST, HTTP_PORT
+# from application.config.extensions_conf import HTTP_HOST, HTTP_PORT
 from application.initialization.logger_process import logger
 
 
@@ -24,4 +24,4 @@ app = init_app()
 
 if __name__ == "__main__":
     logger.info(app.url_map)
-    app.run(host=HTTP_HOST, port=HTTP_PORT, debug=True)
+    app.run(host="0.0.0.0", port=50000, debug=True)

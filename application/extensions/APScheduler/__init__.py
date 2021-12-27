@@ -10,7 +10,7 @@
 
 def schedule_init():
     from .ap_scheduler import scheduler, schedule_init
-    from application.APScheduler_tasks import all_jobs
+    from application.extensions.APScheduler.jobs import all_jobs
 
     schedule_init()
     current_jobs = {}
