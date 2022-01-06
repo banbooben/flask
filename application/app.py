@@ -9,8 +9,8 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-# from flask_script import Manager
-# from flask_migrate import MigrateCommand
+from flask_script import Manager
+from flask_migrate import MigrateCommand
 from application.initialization import init_app
 # from application.config.extensions_conf import HTTP_HOST, HTTP_PORT
 from application.initialization.logger_process import logger
@@ -18,8 +18,8 @@ from application.initialization.logger_process import logger
 
 app = init_app()
 
-# manager = Manager(app)
-# manager.add_command('db', MigrateCommand)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
 
 
 if __name__ == "__main__":

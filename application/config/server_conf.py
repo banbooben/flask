@@ -122,11 +122,11 @@ class TestConfig(Config):
 class LocalConfig(Config):
     DATABASES_USER = os.getenv('MYSQL_PASSWORD', 'root')
     DATABASES_PASSWORD = os.getenv('MYSQL_PASSWORD', 'root')
-    DATABASES_HOST = os.getenv('MYSQL_HOST', '127.0.0.1')
-    DATABASES_PORT = os.getenv('MYSQL_PORT', 21290)
+    DATABASES_HOST = os.getenv('MYSQL_HOST', '192.168.2.160')
+    DATABASES_PORT = os.getenv('MYSQL_PORT', 33061)
     # DATABASES_HOST = os.getenv('MYSQL_HOST', '100.100.21.220')
     # DATABASES_PORT = os.getenv('MYSQL_PORT', 33061)
-    DATABASES_DATABASES = os.getenv('MYSQL_DATABASES', "smbc")
+    DATABASES_DATABASES = os.getenv('MYSQL_DATABASES', "test")
     SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{DATABASES_USER}:{DATABASES_PASSWORD}@{DATABASES_HOST}:{DATABASES_PORT}/{DATABASES_DATABASES}'
 
     # 缓存

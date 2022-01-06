@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
+flask = "==1.1.2"
 loguru = "*"
 flask-cors = "*"
 flask-restful = "*"
@@ -24,6 +24,8 @@ pypdf2 = "*"
 #pymupdf = "*"
 redis = "*"
 webargs = "*"
+flask-script = "*"
+flask-migrate = "==2.5.3"
 
 [dev-packages]
 pylint = "*"

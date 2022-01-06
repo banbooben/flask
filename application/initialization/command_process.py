@@ -1,3 +1,5 @@
+import os
+
 import click
 from flask.cli import with_appcontext
 
@@ -27,3 +29,18 @@ def init_command(app):
         click.echo("by you command!")
         db.drop_all()
         return
+
+    @app.cli.command("init", help="create tables if not exists")
+    @with_appcontext
+    def init():
+        os.system("flask db init")
+
+    @app.cli.command("migrate", help="drop all tables, very! dangerous!")
+    @with_appcontext
+    def migrate():
+        os.system("flask db migrate")
+
+    @app.cli.command("upgrade", help="drop all tables, very! dangerous!")
+    @with_appcontext
+    def migrate():
+        os.system("flask db upgrade")
