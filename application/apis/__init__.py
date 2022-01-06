@@ -46,6 +46,7 @@ class RegisterBlueprint(object):
                 importlib.reload(module)
                 try:
                     bp_init = getattr(module, 'BPInit')
+                    bp_init = bp_init()
                     if bp_init.enable:
                         self.all_modules.append(bp_init)
                         bp_static_dir = f"{current_config.STATIC_FOLDER}/{bp_init.blueprint.name}"

@@ -33,7 +33,7 @@ class AuthTest(BaseResource):
     @Decorator.deserialization
     def get(self, params):
         logger.info(f"{params=}")
-        logger.info(f"{params.text=}")
+        logger.info(f"{params.test=}")
         data = {}
         return self.response(data=data)
 

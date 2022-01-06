@@ -31,7 +31,7 @@ class Request(_Request):
         elif self.method in ("DELETE", "GET"):
             data = self.args
         self._param = data
-        return data
+        return self._param
 
 
 def init_hook_function(app):

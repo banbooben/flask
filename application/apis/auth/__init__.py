@@ -10,8 +10,12 @@
 # from .blueprint import scheduler
 
 # from flask import Blueprint
+from typing import Tuple
+
 from flask_smorest import Blueprint
+from application.initialization.blueprint_process import CustomBlueprintBase, BaseResource
 from application.config.server_conf import current_config
+
 
 auth = Blueprint("auth",
                  __name__,
@@ -19,15 +23,18 @@ auth = Blueprint("auth",
                  static_url_path='/')
 
 
-class BPInit(object):
-    # 是否启动本模块
-    enable = True
-    blueprint = auth
+class BPInit(CustomBlueprintBase):
 
-    from .test import (
-        AuthTest,
-    )
+    def init_blueprint(self) -> Blueprint:
+        return auth
 
-    resource = (
-        (AuthTest, ""),
-    )
+    def init_resource(self) -> Tuple:
+
+        from .test import (
+            AuthTest,
+        )
+
+        resource = (
+            (AuthTest, ""),
+        )
+        return resource

@@ -25,7 +25,7 @@ class CustomBlueprintBase(object):
         pass
 
     @abc.abstractmethod
-    def init_resource(self) -> Tuple[Tuple[BaseResource, str], ...]:
+    def init_resource(self) -> Tuple:
         pass
 
     # @classmethod
@@ -36,6 +36,10 @@ class CustomBlueprintBase(object):
     @property
     def resource(self):
         return self._resource
+
+    @property
+    def enable(self):
+        return self._enable
 
     def set_enable(self, flag: [True, False]):
         self._enable = flag
