@@ -15,6 +15,10 @@ services:
     volumes:
       - ../flask_app:/flask_app
       - ./log:/logs
+    deploy:
+      replicas: 2
+
+
 
 #  flaskr_celery:
 #    image: flaskr:release_20210809101523
