@@ -17,7 +17,10 @@ services:
       - ./log:/logs
     deploy:
       replicas: 2
-
+      endpoint_mode: dnsrr
+      resources:
+        limits:
+          memory: 2G
 
 
 #  flaskr_celery:
