@@ -31,8 +31,7 @@ class RegisterBlueprint(object):
         self.load_all_resource_and_blueprint()
         for current_bp in self.all_modules:
             bp = current_bp.blueprint()
-            if current_bp.enable:
-                # bp_api_ = Api(bp)
+            if current_bp.enable():
                 current_bp.init_resource(Api(bp))
                 self._app.register_blueprint(bp, url_prefix=f"{bp.url_prefix}")
                 bp_static_dir = f"{current_config.STATIC_FOLDER}/{bp.name}"
@@ -48,7 +47,6 @@ class RegisterBlueprint(object):
         加载当前文件夹下所有的路由和蓝本
         """
         default_dirs = os.path.dirname(__file__)
-        a = ""
         for _dir in [_dir for _dir in os.listdir(default_dirs) if not re.search(r"^[_\.]", _dir)]:
             abs_file_path = f"application/apis/{_dir}"
             module = importlib.import_module(abs_file_path.replace("/", "."))
