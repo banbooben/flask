@@ -15,20 +15,29 @@ from pathlib import Path
 from application.config.server_conf import current_config
 
 import os
+import re
 
 import importlib
 
 
 class RegisterBlueprint(object):
 
-    def __init__(self):
+    def __init__(self, app):
         self.all_modules = []
+        self._app = app
+        self.api_ = Api(app)
 
-    def init_register_blueprint(self, app):
+    def init_register_blueprint(self):
         self.load_all_resource_and_blueprint()
-        for bp_init in self.all_modules:
-            bp = self.register_api(bp_init)
-            app.register_blueprint(bp, url_prefix=f"/{bp.name}")
+        for current_bp in self.all_modules:
+            bp = current_bp.blueprint()
+            if current_bp.enable:
+                # bp_api_ = Api(bp)
+                current_bp.init_resource(Api(bp))
+                self._app.register_blueprint(bp, url_prefix=f"{bp.url_prefix}")
+                bp_static_dir = f"{current_config.STATIC_FOLDER}/{bp.name}"
+                if not Path(bp_static_dir).exists():
+                    os.makedirs(bp_static_dir, exist_ok=True)
 
             # 注册错误
             register_blueprint_error(bp)
@@ -39,25 +48,13 @@ class RegisterBlueprint(object):
         加载当前文件夹下所有的路由和蓝本
         """
         default_dirs = os.path.dirname(__file__)
-        for root, dirs, files in os.walk(default_dirs):
-            for _dir in [_dir for _dir in dirs if not _dir.startswith("__")]:
-                abs_file_path = f"application/apis/{_dir}"
-                module = importlib.import_module(abs_file_path.replace("/", "."))
-                importlib.reload(module)
-                try:
-                    bp_init = getattr(module, 'BPInit')
-                    bp_init = bp_init()
-                    if bp_init.enable:
-                        self.all_modules.append(bp_init)
-                        bp_static_dir = f"{current_config.STATIC_FOLDER}/{bp_init.blueprint.name}"
-                        if not Path(bp_static_dir).exists():
-                            os.makedirs(bp_static_dir, exist_ok=True)
-                except Exception as e:
-                    logger.exception(e)
-
-    # 蓝本注册路由
-    def register_api(self, bp_init):
-        blueprint_api = Api(bp_init.blueprint)
-        for item in bp_init.resource:
-            blueprint_api.add_resource(item[0], item[1])
-        return bp_init.blueprint
+        a = ""
+        for _dir in [_dir for _dir in os.listdir(default_dirs) if not re.search(r"^[_\.]", _dir)]:
+            abs_file_path = f"application/apis/{_dir}"
+            module = importlib.import_module(abs_file_path.replace("/", "."))
+            importlib.reload(module)
+            try:
+                current_bp = getattr(module, 'CustomBlueprint')
+                self.all_modules.append(current_bp)
+            except Exception as e:
+                logger.exception(e)

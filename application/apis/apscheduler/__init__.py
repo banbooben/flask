@@ -7,34 +7,32 @@
 # @File    : __init__.py.py
 # @desc    :
 
-# from .blueprint import scheduler
-
-# from flask import Blueprint
-from flask_smorest import Blueprint
-from marshmallow import fields, Schema
+from application.initialization.blueprint_process import CustomBlueprintBase, Blueprint, Api
 from application.config.server_conf import current_config
 
 scheduler_bp = Blueprint("scheduler",
                          __name__,
                          static_folder=f'{current_config.STATIC_FOLDER}/scheduler',
-                         static_url_path='/')
+                         static_url_path='/',
+                         url_prefix="/scheduler")
 
 
-class BPInit(object):
-    # 是否启动本模块
-    enable = False
-    blueprint = scheduler_bp
+class CustomBlueprint(CustomBlueprintBase):
+    _enable = True
+    _current_bp = scheduler_bp
 
-    from .ap_scheduler import (
-        APSchedulerJobsBaseResource,
-        APSchedulerJobsResource,
-        APSchedulerJobResource,
-        DeleteAllAPSchedulerJobsResource
-    )
+    @classmethod
+    def init_resource(cls, api_: Api):
 
-    resource = (
-        (APSchedulerJobsBaseResource, "/jobs"),
-        (DeleteAllAPSchedulerJobsResource, "/delete/all"),
-        (APSchedulerJobsResource, "/jobs/<string:job_id>"),
-        (APSchedulerJobResource, "/jobs/<string:job_id>/<string:active>"),
-    )
+        from .ap_scheduler import (
+            APSchedulerJobsBaseResource,
+            APSchedulerJobsResource,
+            APSchedulerJobResource,
+            DeleteAllAPSchedulerJobsResource
+        )
+
+        api_.add_resource(APSchedulerJobsBaseResource, "/jobs"),
+        api_.add_resource(DeleteAllAPSchedulerJobsResource, "/delete/all"),
+        api_.add_resource(APSchedulerJobsResource, "/jobs/<string:job_id>"),
+        api_.add_resource(APSchedulerJobResource, "/jobs/<string:job_id>/<string:active>"),
+

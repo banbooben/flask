@@ -12,29 +12,25 @@
 # from flask import Blueprint
 from typing import Tuple
 
-from flask_smorest import Blueprint
-from application.initialization.blueprint_process import CustomBlueprintBase, BaseResource
+from application.initialization.blueprint_process import CustomBlueprintBase, Blueprint, Api
 from application.config.server_conf import current_config
-
 
 auth = Blueprint("auth",
                  __name__,
                  static_folder=f'{current_config.STATIC_FOLDER}/auth',
-                 static_url_path='/')
+                 static_url_path='/',
+                 url_prefix="/auth")
 
 
-class BPInit(CustomBlueprintBase):
+class CustomBlueprint(CustomBlueprintBase):
+    _enable = True
+    _current_bp = auth
 
-    def init_blueprint(self) -> Blueprint:
-        return auth
-
-    def init_resource(self) -> Tuple:
+    @classmethod
+    def init_resource(cls, api_: Api):
 
         from .test import (
             AuthTest,
         )
 
-        resource = (
-            (AuthTest, ""),
-        )
-        return resource
+        api_.add_resource(AuthTest, "/")

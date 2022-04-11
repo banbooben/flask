@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "==1.1.2"
 loguru = "*"
 flask-cors = "*"
 flask-restful = "*"
@@ -26,9 +25,12 @@ redis = "*"
 webargs = "*"
 flask-script = "*"
 flask-migrate = "==2.5.3"
+jinja2 = "*"
+flask = "*"
 
 [dev-packages]
 pylint = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.9"

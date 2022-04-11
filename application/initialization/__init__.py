@@ -47,7 +47,7 @@ def init_app():
     config_extensions(flask_app)
 
     # 配置蓝本路由、api接口
-    RegisterBlueprint().init_register_blueprint(flask_app)
+    RegisterBlueprint(flask_app).init_register_blueprint()
 
     # 注册命令
     init_command(flask_app)

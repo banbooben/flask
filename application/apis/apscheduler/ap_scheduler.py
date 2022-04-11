@@ -9,7 +9,8 @@
 
 from flask import request
 
-from application.apis.apscheduler import scheduler_bp, fields, Schema
+from application.apis.apscheduler import scheduler_bp
+from marshmallow import fields, Schema
 from application.common.decorators import Decorator
 from application.extensions.APScheduler.ap_scheduler import scheduler
 

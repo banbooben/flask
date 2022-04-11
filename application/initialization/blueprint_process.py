@@ -10,36 +10,23 @@
 import abc
 from typing import Tuple
 from flask_smorest import Blueprint
-from application.initialization.resource_process import BaseResource
+from application.initialization.resource_process import Api
 
 
 class CustomBlueprintBase(object):
+    _enable = True
+    _current_bp = None
 
-    def __init__(self):
-        self._enable = True
-        self._bp = self.init_blueprint()
-        self._resource = self.init_resource()
-
+    @classmethod
     @abc.abstractmethod
-    def init_blueprint(self) -> Blueprint:
+    def init_resource(cls, api_: Api) -> Tuple:
         pass
 
-    @abc.abstractmethod
-    def init_resource(self) -> Tuple:
-        pass
+    @classmethod
+    def blueprint(cls):
+        return cls._current_bp
 
-    # @classmethod
-    @property
-    def blueprint(self):
-        return self._bp
-
-    @property
-    def resource(self):
-        return self._resource
-
-    @property
-    def enable(self):
-        return self._enable
-
-    def set_enable(self, flag: [True, False]):
-        self._enable = flag
+    # @property
+    @classmethod
+    def enable(cls):
+        return cls._enable
