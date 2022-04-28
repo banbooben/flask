@@ -25,14 +25,14 @@ class TestJob(object):
 test_jobs_ = TestJob()
 
 jobs = {
-    test_jobs_.print_info: {
-        "trigger": 'cron',
-        "second": '*/5',
-        "coalesce": True,
-    },
-    test_jobs_.test_002: {
-        "trigger": 'cron',
-        "second": '*/3',
-        "coalesce": True,
-    },
+    # test_jobs_.print_info: {
+    #     "trigger": 'cron',
+    #     "second": '*/5',
+    #     "coalesce": True,
+    # },
+    # test_jobs_.test_002: {
+    #     "trigger": 'cron',
+    #     "second": '*/3',
+    #     "coalesce": True,
+    # },
 }

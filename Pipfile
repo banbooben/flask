@@ -27,10 +27,12 @@ flask-script = "*"
 flask-migrate = "==2.5.3"
 jinja2 = "*"
 flask = "*"
+nacos-sdk-python = "*"
 
 [dev-packages]
 pylint = "*"
 flake8 = "*"
+yapf = "*"
 
 [requires]
 python_version = "3.9"

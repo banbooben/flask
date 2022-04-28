@@ -21,9 +21,9 @@ def config_extensions(app):
     from .extensions_process.flask_sqlalchemy_process import init_db
     init_db(app)
 
-    from application.initialization.extensions_process.jwtextend_process import JWTProcess
+    # from application.initialization.extensions_process.jwtextend_process import JWTProcess
     # JWTProcess(app).init_jwt_decorator()
 
-    # from flask_app.extensions.APScheduler import schedule_init
-    # schedule_init()
+    from application.extensions.APScheduler import schedule_init
+    schedule_init()
     ...

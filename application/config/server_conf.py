@@ -4,8 +4,8 @@
 # @Author: shangyameng
 # @Email: shangyameng@aliyun.com
 # @Date: 2020-04-08 22:56:46
-# @LastEditTime: 2021-11-01 20:47:18
-# @FilePath: /smfg_api/flask_app/config/server_conf.py
+# @LastEditTime: 2022-04-28 13:42:51
+# @FilePath: /flask/application/config/server_conf.py
 
 import os
 import random
@@ -84,6 +84,7 @@ class Config(BaseConfig):
         "REDIS_DB": os.getenv('REDIS_DB', 3),
         "REDIS_PASSWORD": os.getenv('REDIS_PASSWORD', ''),
         "DECODE_RESPONSES": os.getenv('DECODE_RESPONSES', "True"),
+        "REDIS_TYPE": os.getenv("REDIS_TYPE", "single")
     }
 
     SQLALCHEMY_BINDS = {

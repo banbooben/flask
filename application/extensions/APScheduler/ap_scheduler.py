@@ -4,7 +4,7 @@
 # @Author: shangyameng
 # @Email: shangyameng@aliyun.com
 # @Date: 2021-08-18 18:12:30
-# @LastEditTime: 2021-12-13 17:50:44
+# @LastEditTime: 2022-04-28 08:13:13
 # @FilePath: /flask/application/extensions/APScheduler/ap_scheduler.py
 
 # import sys
@@ -13,12 +13,14 @@ from pytz import utc
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from apscheduler.jobstores.memory import MemoryJobStore
 
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 
 scheduler_config = {
     "jobstores": {
-        'default': SQLAlchemyJobStore(url='sqlite:///./jobs.sqlite')
+        # 'default': SQLAlchemyJobStore(url='sqlite:///./jobs.sqlite')
+        'default': MemoryJobStore()
     },
     "executors": {
         'default': ThreadPoolExecutor(20),
